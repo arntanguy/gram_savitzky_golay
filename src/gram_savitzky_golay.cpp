@@ -51,11 +51,21 @@ std::vector<double> ComputeWeights(const int m, const int t, const int n, const 
   return weights;
 }
 
-SavitzkyGolayFilter::SavitzkyGolayFilter(const int m, const int t, const int n, const int s) : conf_(m, n, s, t)
+SavitzkyGolayFilter::SavitzkyGolayFilter(const int m, const int t, const int n, const int s) : conf_(m,t,n,s)
+{
+  init();
+}
+
+SavitzkyGolayFilter::SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf) : conf_(conf)
+{
+  init();
+}
+
+void SavitzkyGolayFilter::init()
 {
   // Compute weights for the time window 2*m+1, for the t'th least-square
   // point of the s'th derivative
-  weights_ = ComputeWeights(m, t, n, s);
+  weights_ = ComputeWeights(conf_.m, conf_.t, conf_.n, conf_.s);
 }
 
 double SavitzkyGolayFilter::filter(const std::vector<double>& x)
@@ -68,4 +78,15 @@ double SavitzkyGolayFilter::filter(const std::vector<double>& x)
   }
   return res;
 }
+
+std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf)
+{
+    os << "m                       : " << conf.m << std::endl
+       << "Window Size (2*m+1)     : " << 2*conf.m+1 << std::endl
+       << "n (Order)               :" <<  conf.n << std::endl
+       << "s (Differentiate)       : " << conf.s << std::endl
+       << "t: Filter point ([-m,m]): " << conf.t << std::endl;
+    return os;
+}
+
 } /* gram_sg */

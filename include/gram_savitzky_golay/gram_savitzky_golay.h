@@ -3,6 +3,7 @@
 #include <cassert>
 #include <cstddef>
 #include <vector>
+#include <sstream>
 
 namespace gram_sg
 {
@@ -32,18 +33,22 @@ struct SavitzkyGolayFilterConfig
 {
   //! Window size is 2*m+1
   int m;
+  //! Time at which the filter is applied
+  // For real-time, should be t=m
+  int t;
   //! Polynomial order
   int n;
   //! Derivation order (0 for no derivation)
   int s;
-  //! Time at which the filter is applied
-  // For real-time, should be t=m
-  int t;
 
-  SavitzkyGolayFilterConfig(const int m, const int n, const int s, const int t) : m(m), n(n), s(s), t(t)
+  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s) : m(m), t(t), n(n), s(s)
   {
   }
+
+  friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
 };
+
+
 
 class SavitzkyGolayFilter
 {
@@ -51,9 +56,11 @@ class SavitzkyGolayFilter
  private:
   const SavitzkyGolayFilterConfig conf_;
   std::vector<double> weights_;
+  void init();
 
  public:
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s);
+  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig &conf);
 
   /*!
      * Apply Savitzky-Golay convolution to the data
@@ -64,6 +71,10 @@ class SavitzkyGolayFilter
   std::vector<double> weights() const
   {
     return weights_;
+  }
+  SavitzkyGolayFilterConfig config() const
+  {
+    return conf_;
   }
 };
 
