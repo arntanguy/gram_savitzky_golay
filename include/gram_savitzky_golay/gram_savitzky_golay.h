@@ -1,9 +1,10 @@
 #pragma once
 
+#include <Eigen/Core>
 #include <cassert>
 #include <cstddef>
-#include <vector>
 #include <sstream>
+#include <vector>
 
 namespace gram_sg
 {
@@ -48,8 +49,6 @@ struct SavitzkyGolayFilterConfig
   friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
 };
 
-
-
 class SavitzkyGolayFilter
 {
  public:
@@ -60,13 +59,37 @@ class SavitzkyGolayFilter
 
  public:
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s);
-  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig &conf);
+  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf);
 
-  /*!
-     * Apply Savitzky-Golay convolution to the data
-     * x should have size 2*m+1
-     */
-  double filter(const std::vector<double>& x);
+  /**
+   * @brief Apply Savitzky-Golay convolution to the data x should have size 2*m+1
+   * As the function only applies a convolution, it runs in O(2m+1), and should
+   * be rather fast.
+   *
+   * @param v Container with the data to be filtered.
+   * Should have 2*m+1 elements
+   * Type of elements needs to be compatible with multiplication by a scalar,
+   * and addition with itself
+   * Common types would be std::vector<double>, std::vector<Eigen::VectorXd>, boost::circular_buffer<Eigen::Vector3d>...
+   *
+   * @param initial_value Initial value for the filter's accumulator. It should be the zero.
+   *
+   * @return Filtered value according to the precomputed filter weights.
+   */
+  template <typename ContainerT>
+  typename ContainerT::value_type filter(const ContainerT& v, typename ContainerT::value_type&& initial_value) const
+  {
+    assert(v.size() == weights_.size());
+    using T = typename ContainerT::value_type;
+    T res = initial_value;
+    int i = 0;
+    for (const T& value : v)
+    {
+      res += weights_[i] * value;
+      ++i;
+    }
+    return res;
+  }
 
   std::vector<double> weights() const
   {

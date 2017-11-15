@@ -16,7 +16,7 @@ enable_testing()
 find_package(Boost 1.54 COMPONENTS unit_test_framework REQUIRED)
 
 # Enable C++11
-add_definitions(-std=c++11)
+add_definitions(-std=c++11 -O3)
 
 include_directories(include)
 add_subdirectory(src)

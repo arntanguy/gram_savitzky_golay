@@ -62,3 +62,13 @@ BOOST_AUTO_TEST_CASE(TestGorryDerivative)
     BOOST_REQUIRE_CLOSE(sg7_deriv_gram[i], filter_weights[i] * 28, 10e-6);
   }
 }
+
+
+BOOST_AUTO_TEST_CASE(TestIdentity)
+{
+  int m = 3;
+  SavitzkyGolayFilter filter(m, 0, 2, 0);
+  std::vector<double> data = {1, 1, 1, 1, 1, 1, 1};
+  double res = filter.filter(data, 0.);
+  BOOST_REQUIRE_CLOSE(res, 1, 10e-6);
+}

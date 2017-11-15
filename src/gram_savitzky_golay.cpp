@@ -68,17 +68,6 @@ void SavitzkyGolayFilter::init()
   weights_ = ComputeWeights(conf_.m, conf_.t, conf_.n, conf_.s);
 }
 
-double SavitzkyGolayFilter::filter(const std::vector<double>& x)
-{
-  assert(x.size() == weights_.size());
-  double res = 0;
-  for (unsigned i = 0; i < x.size(); i++)
-  {
-    res += weights_[i] * x[i];
-  }
-  return res;
-}
-
 std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf)
 {
     os << "m                       : " << conf.m << std::endl
