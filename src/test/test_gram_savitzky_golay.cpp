@@ -7,6 +7,7 @@
 #include <boost/test/unit_test.hpp>
 #include <cmath>
 #include <iostream>
+#include <chrono>
 #include "gram_savitzky_golay/gram_savitzky_golay.h"
 
 using namespace gram_sg;
@@ -71,4 +72,21 @@ BOOST_AUTO_TEST_CASE(TestIdentity)
   std::vector<double> data = {1, 1, 1, 1, 1, 1, 1};
   double res = filter.filter(data, 0.);
   BOOST_REQUIRE_CLOSE(res, 1, 10e-6);
+}
+
+BOOST_AUTO_TEST_CASE(FilterSpeed)
+{
+    int m = 10000;
+    SavitzkyGolayFilter filter(m, 0, 2, 0);
+    std::vector<double> data(2*m+1,1.);
+
+    auto start_time = std::chrono::high_resolution_clock::now();
+
+    filter.filter(data, 0.);
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+    std::cout << "Filtering performed in " << elapsed.count() << " (ms)" << std::endl;;
+
+    BOOST_REQUIRE(elapsed.count() < 0.001);
 }
