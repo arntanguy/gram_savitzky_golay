@@ -74,6 +74,68 @@ BOOST_AUTO_TEST_CASE(TestIdentity)
   BOOST_REQUIRE_CLOSE(res, 1, 10e-6);
 }
 
+BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
+{
+  // Window size is 2*m+1
+  const size_t m = 3;
+  // Polynomial Order
+  const size_t n = 2;
+  // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
+  // Points are defined in range [-m;m]
+  const size_t t = m;
+  // Derivate? 0: no derivation, 1: first derivative...
+  SavitzkyGolayFilter filter(m, t, n, 0);
+
+  // Filter some data
+  std::vector<double> data = {.1, .7, .9, .7, .8, .5, -.3};
+  double result = filter.filter(data, 0.);
+  double result_ref = -0.22619047619047616;
+  BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
+}
+
+BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
+{
+  // Window size is 2*m+1
+  const size_t m = 3;
+  // Polynomial Order
+  const size_t n = 2;
+  // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
+  // Points are defined in range [-m;m]
+  const size_t t = m;
+
+
+  // Test First Order Derivative
+  SavitzkyGolayFilter filter(m, t, n, 1);
+
+  // Filter some data
+  std::vector<double> data = {.1, .2, .3, .4, .5, .6, .7};
+  double result = filter.filter(data, 0.);
+  double result_ref = 0.1;
+  BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
+
+  // Filter some data
+  data = {-1, -2, -3, -4, -5, -6, -7};
+  result = filter.filter(data, 0.);
+  result_ref = -1;
+  BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
+
+
+
+  // Test Second Order Derivative
+  SavitzkyGolayFilter second_order_filter(m, t, n, 2);
+
+  // Filter some data
+  data = {.1, .2, .3, .4, .5, .6, .7};
+  result = second_order_filter.filter(data, 0.);
+  BOOST_CHECK_SMALL(result, 10e-6);
+
+  // Filter some data
+  data = {-1, -2, -3, -4, -5, -6, -7};
+  result = second_order_filter.filter(data, 0.);
+  BOOST_CHECK_SMALL(result, 10e-6);
+
+}
+
 BOOST_AUTO_TEST_CASE(FilterSpeed)
 {
     int m = 10000;
