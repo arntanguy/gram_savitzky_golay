@@ -46,6 +46,26 @@ struct SavitzkyGolayFilterConfig
   {
   }
 
+  unsigned data_point() const
+  {
+    return t;
+  }
+
+  unsigned derivation_order() const
+  {
+    return s;
+  }
+
+  unsigned order() const
+  {
+    return n;
+  }
+
+  unsigned window_size() const
+  {
+    return 2*m+1;
+  }
+
   friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
 };
 
