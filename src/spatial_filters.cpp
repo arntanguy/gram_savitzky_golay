@@ -16,7 +16,7 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
-#include "gram_savitzky_golay/eigen/spatial_filters.h"
+#include "gram_savitzky_golay/spatial_filters.h"
 
 #include <Eigen/SVD>
 #include <boost/circular_buffer.hpp>
