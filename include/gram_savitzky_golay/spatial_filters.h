@@ -110,7 +110,6 @@ class RotationFilter
   Eigen::Matrix3d filter() const;
   bool ready() const
   {
-    std::cout << "rotation filter buffer size: " << buffer.size() << " / capacity " << buffer.capacity() << std::endl;
     return buffer.size() == buffer.capacity();
   }
 };
@@ -139,7 +138,6 @@ class TransformFilter
   }
   bool ready() const
   {
-    std::cout << "transformfilter::ready" << std::endl;
     return trans_filter.ready() && rot_filter.ready();
   }
 };
