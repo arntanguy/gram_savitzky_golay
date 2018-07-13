@@ -32,6 +32,7 @@ RotationFilter::RotationFilter(const gram_sg::SavitzkyGolayFilterConfig& conf)
 
 void RotationFilter::reset(const Eigen::Matrix3d& r)
 {
+  buffer.clear();
   // Initialize to data
   for (size_t i = 0; i < buffer.capacity(); i++)
   {
@@ -41,7 +42,7 @@ void RotationFilter::reset(const Eigen::Matrix3d& r)
 
 void RotationFilter::reset()
 {
-  buffer.clear();
+  RotationFilter::reset(Eigen::Matrix3d::Zero());
 }
 
 void RotationFilter::add(const Eigen::Matrix3d& r) { buffer.push_back(r); }
@@ -93,4 +94,4 @@ void VelocityFilter::reset(const Vector6d& T) { vfilter.reset(convert(T)); }
 void VelocityFilter::reset() { vfilter.reset(); }
 void VelocityFilter::add(const Vector6d& T) { vfilter.add(convert(T)); }
 Vector6d VelocityFilter::filter() const { return Vector6d(vfilter.filter()); }
-} /* mc_state */
+}

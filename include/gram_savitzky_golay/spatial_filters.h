@@ -36,10 +36,6 @@ class EigenVectorFilter
   // Buffers for Savitzky_golay
   boost::circular_buffer<T> buffer;
 
-  // Outlier rejection
-  T average_;
-  T median_;
-
  public:
   EigenVectorFilter(const gram_sg::SavitzkyGolayFilterConfig& conf)
       : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
@@ -49,8 +45,7 @@ class EigenVectorFilter
 
   void reset(const T& data)
   {
-    average_ = data;
-    median_ = data;
+    buffer.clear();
     // Initialize to data
     for (size_t i = 0; i < buffer.capacity(); i++)
     {
@@ -60,23 +55,11 @@ class EigenVectorFilter
 
   void reset()
   {
-    average_ = T::Zero();
-    median_ = T::Zero();
-    buffer.clear();
+    reset(T::Zero());
   }
 
-  void compute_median(const T& data)
-  {
-    for (int i = 0; i < data.size(); ++i)
-    {
-      const auto& sample = data(i);
-      average_(i) += (sample - average_(i)) * 0.1f;  // rough running average.
-      median_(i) += std::copysign(average_(i) * 0.01, sample - median_(i));
-    }
-  }
   void add(const T& data) { buffer.push_back(data); }
   T filter() const { return sg_filter.filter(buffer, T::Zero()); }
-  T median() const { return median_; }
   gram_sg::SavitzkyGolayFilterConfig config() const
   {
     return sg_conf;
@@ -165,4 +148,4 @@ class VelocityFilter
   }
 };
 
-} /* mc_state */
+}

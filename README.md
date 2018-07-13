@@ -23,7 +23,7 @@ const int d = 0;
 
 
 // Real-time filter (filtering at latest data point)
-SavitzkyGolayFilter filter(m, t, n, d);
+gram_sg::SavitzkyGolayFilter filter(m, t, n, d);
 // Filter some data
 std::vector<double> data = {.1, .7, .9, .7, .8, .5, -.3};
 double result = filter.filter(data);
@@ -32,8 +32,11 @@ double result = filter.filter(data);
 
 // Real-time derivative filter (filtering at latest data point)
 // Use first order derivative
+// NOTE that the derivation timestep is assumed to be 1. If this is not the case,
+// divide the filter result by the timestep to obtain the correctly scaled derivative
+// See Issue #1
 d=1;
-SavitzkyGolayFilter first_derivative_filter(m, t, n, d);
+gram_sg::SavitzkyGolayFilter first_derivative_filter(m, t, n, d);
 // Filter some data
 std::vector<double> values = {.1, .2, .3, .4, .5, .6, .7};
 // Should be =.1
@@ -48,7 +51,7 @@ Filtering Rotations
 #include <gram_savitzky_golay/spatial_filters.h>
 
 gram_sg::SavitzkyGolayFilterConfig sg_conf(50, 50, 2, 0);
-RotationFilter filter(sg_conf);
+gram_sg::RotationFilter filter(sg_conf);
 
 filter.reset(Eigen::Matrix3d::Zero());
 
