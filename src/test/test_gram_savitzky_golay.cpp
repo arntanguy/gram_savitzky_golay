@@ -124,6 +124,8 @@ BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 
   // Test First Order Derivative
   SavitzkyGolayFilter filter(m, t, n, 1);
+  SavitzkyGolayFilter filter_dt(m, t, n, 1, 0.005);
+  BOOST_REQUIRE(filter_dt.config().time_step() == 0.005);
 
   // Filter some data
   std::vector<double> data = {.1, .2, .3, .4, .5, .6, .7};
@@ -131,10 +133,20 @@ BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
   double result_ref = 0.1;
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 
+  // Test filtering with timestep=0.005
+  data = {.1, .2, .3, .4, .5, .6, .7};
+  result = filter_dt.filter(data, 0.);
+  result_ref = 0.1/filter_dt.config().time_step();
+  BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
+
   // Filter some data
   data = {-1, -2, -3, -4, -5, -6, -7};
   result = filter.filter(data, 0.);
   result_ref = -1;
+  BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
+  // Test filtering with timestep=0.005
+  result = filter_dt.filter(data, 0.);
+  result_ref = -1./filter_dt.config().time_step();
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 
 
