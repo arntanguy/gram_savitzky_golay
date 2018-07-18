@@ -59,8 +59,10 @@ struct SavitzkyGolayFilterConfig
   int n;
   //! Derivation order (0 for no derivation)
   int s;
+  //! Time step
+  double dt;
 
-  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s) : m(m), t(t), n(n), s(s)
+  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s, const double dt = 1.) : m(m), t(t), n(n), s(s), dt(dt)
   {
   }
 
@@ -84,6 +86,11 @@ struct SavitzkyGolayFilterConfig
     return 2*m+1;
   }
 
+  double time_step() const
+  {
+    return dt;
+  }
+
   friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
 };
 
@@ -96,7 +103,7 @@ class SavitzkyGolayFilter
   void init();
 
  public:
-  SavitzkyGolayFilter(const int m, const int t, const int n, const int s);
+  SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
   SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf);
 
   /**
@@ -126,7 +133,7 @@ class SavitzkyGolayFilter
       res += weights_[i] * value;
       ++i;
     }
-    return res;
+    return res / conf_.time_step();
   }
 
   std::vector<double> weights() const
