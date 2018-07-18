@@ -69,7 +69,7 @@ std::vector<double> ComputeWeights(const int m, const int t, const int n, const 
   return weights;
 }
 
-SavitzkyGolayFilter::SavitzkyGolayFilter(const int m, const int t, const int n, const int s) : conf_(m,t,n,s)
+SavitzkyGolayFilter::SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt) : conf_(m,t,n,s,dt)
 {
   init();
 }
