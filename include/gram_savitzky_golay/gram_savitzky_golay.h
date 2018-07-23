@@ -101,6 +101,7 @@ class SavitzkyGolayFilter
   const SavitzkyGolayFilterConfig conf_;
   std::vector<double> weights_;
   void init();
+  double dt_;
 
  public:
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
@@ -133,7 +134,7 @@ class SavitzkyGolayFilter
       res += weights_[i] * value;
       ++i;
     }
-    return res / std::pow(conf_.time_step(), conf_.derivation_order());
+    return res / dt_;
   }
 
   std::vector<double> weights() const

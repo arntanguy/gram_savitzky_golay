@@ -84,6 +84,7 @@ void SavitzkyGolayFilter::init()
   // Compute weights for the time window 2*m+1, for the t'th least-square
   // point of the s'th derivative
   weights_ = ComputeWeights(conf_.m, conf_.t, conf_.n, conf_.s);
+  dt_ = std::pow(conf_.time_step(), conf_.derivation_order());
 }
 
 std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf)
