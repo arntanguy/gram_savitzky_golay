@@ -95,12 +95,12 @@ BOOST_AUTO_TEST_CASE(TestIdentity)
 BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
 {
   // Window size is 2*m+1
-  const size_t m = 3;
+  const int m = 3;
   // Polynomial Order
-  const size_t n = 2;
+  const int n = 2;
   // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
   // Points are defined in range [-m;m]
-  const size_t t = m;
+  const int t = m;
   // Derivate? 0: no derivation, 1: first derivative...
   SavitzkyGolayFilter filter(m, t, n, 0);
 
@@ -114,12 +114,12 @@ BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
 BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 {
   // Window size is 2*m+1
-  const size_t m = 3;
+  const int m = 3;
   // Polynomial Order
-  const size_t n = 2;
+  const int n = 2;
   // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
   // Points are defined in range [-m;m]
-  const size_t t = m;
+  const int t = m;
 
 
   // Test First Order Derivative
@@ -166,19 +166,64 @@ BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 
 }
 
+// Test derivation on a known polynomial function
+BOOST_AUTO_TEST_CASE(TestPolynomialDerivative)
+{
+  // Polynomial is a*x^3 + bx^2 + c*x^1 + d
+  double a = 10;
+  double b = 2;
+  double c = -3;
+  double d = -4;
+  double timeStep = 0.42;
+
+
+  // Window size is 2*m+1
+  const int m = 50;
+  // Polynomial Order
+  const int n = 3;
+  // Points are defined in range [-m;m]
+  // Eval at central point
+  const int t = 0;
+
+  SavitzkyGolayFilter filter_order1(m, t, n, 1, timeStep);
+  SavitzkyGolayFilter filter_order2(m, t, n, 2, timeStep);
+  std::vector<double> data;
+  std::vector<double> derivative_order1, derivative_order2;
+  data.resize(2*m+1);
+  derivative_order1.resize(2*m+1);
+  derivative_order2.resize(2*m+1);
+  // Generate some data points
+  for (unsigned x = 0; x < data.size(); ++x) {
+    data[x] = a * std::pow(x, 3) + b * std::pow(x, 2) + c * std::pow(x, 1) + d;
+    derivative_order1[x] = (3*a*std::pow(x, 2) + 2*b*std::pow(x,1) + c)/timeStep;
+    derivative_order2[x] = (6*a*std::pow(x, 1) + 2*b) / std::pow(timeStep,2);
+  }
+  const auto result_order1 = filter_order1.filter(data, 0.);
+  const auto expected_result_order1 = derivative_order1[m];
+  const auto result_order2 = filter_order2.filter(data, 0.);
+  const auto expected_result_order2 = derivative_order2[m];
+
+  BOOST_REQUIRE_CLOSE(result_order1, expected_result_order1, 10e-8);
+  BOOST_REQUIRE_CLOSE(result_order2, expected_result_order2, 10e-8);
+}
+
 BOOST_AUTO_TEST_CASE(FilterSpeed)
 {
     int m = 10000;
     SavitzkyGolayFilter filter(m, 0, 2, 0);
     std::vector<double> data(2*m+1,1.);
 
-    auto start_time = std::chrono::high_resolution_clock::now();
+    double totalTime = 0;
+    int Nsample = 1000;
+    for (int i = 0; i < Nsample; ++i) {
+      auto start_time = std::chrono::high_resolution_clock::now();
+      filter.filter(data, 0.);
+      auto end_time = std::chrono::high_resolution_clock::now();
+      std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
+      totalTime += elapsed.count();
+    }
+    totalTime /= Nsample;
+    std::cout << "Filtering performed in " << totalTime << " (ms)" << std::endl;;
 
-    filter.filter(data, 0.);
-
-    auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
-    std::cout << "Filtering performed in " << elapsed.count() << " (ms)" << std::endl;;
-
-    BOOST_REQUIRE(elapsed.count() < 0.001);
+    BOOST_REQUIRE(totalTime < 0.0001);
 }

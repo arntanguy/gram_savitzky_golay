@@ -133,7 +133,7 @@ class SavitzkyGolayFilter
       res += weights_[i] * value;
       ++i;
     }
-    return res / conf_.time_step();
+    return res / std::pow(conf_.time_step(), conf_.derivation_order());
   }
 
   std::vector<double> weights() const
