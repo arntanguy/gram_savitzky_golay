@@ -20,6 +20,7 @@ add_library(gram_savitzky_golay SHARED
   gram_savitzky_golay.cpp
   spatial_filters.cpp
   )
+pkg_config_append_libs(gram_savitzky_golay)
 
 install(TARGETS gram_savitzky_golay
   RUNTIME DESTINATION bin
