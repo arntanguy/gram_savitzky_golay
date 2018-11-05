@@ -58,6 +58,11 @@ class EigenVectorFilter
     reset(T::Zero());
   }
 
+  void clear()
+  {
+    buffer.clear();
+  }
+
   void add(const T& data) { buffer.push_back(data); }
   T filter() const { return sg_filter.filter(buffer, T::Zero()); }
   gram_sg::SavitzkyGolayFilterConfig config() const
@@ -89,6 +94,7 @@ class RotationFilter
   RotationFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
   void reset(const Eigen::Matrix3d& r);
   void reset();
+  void clear();
   void add(const Eigen::Matrix3d& r);
   Eigen::Matrix3d filter() const;
   bool ready() const
@@ -113,6 +119,7 @@ class TransformFilter
   TransformFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
   void reset(const Eigen::Affine3d& T);
   void reset();
+  void clear();
   void add(const Eigen::Affine3d& T);
   Eigen::Affine3d filter() const;
   gram_sg::SavitzkyGolayFilterConfig config() const
@@ -136,6 +143,7 @@ class VelocityFilter
   VelocityFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
   void reset(const Vector6d& T);
   void reset();
+  void clear();
   void add(const Vector6d& T);
   Vector6d filter() const;
   gram_sg::SavitzkyGolayFilterConfig config() const

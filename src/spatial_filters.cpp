@@ -45,6 +45,11 @@ void RotationFilter::reset()
   RotationFilter::reset(Eigen::Matrix3d::Zero());
 }
 
+void RotationFilter::clear()
+{
+  buffer.clear();
+}
+
 void RotationFilter::add(const Eigen::Matrix3d& r) { buffer.push_back(r); }
 Eigen::Matrix3d RotationFilter::filter() const
 {
@@ -72,6 +77,12 @@ void TransformFilter::reset()
   rot_filter.reset();
 }
 
+void TransformFilter::clear()
+{
+  trans_filter.clear();
+  rot_filter.clear();
+}
+
 void TransformFilter::add(const Eigen::Affine3d& T)
 {
   trans_filter.add(T.translation());
@@ -92,6 +103,7 @@ VelocityFilter::VelocityFilter(const gram_sg::SavitzkyGolayFilterConfig& conf) :
 Vector6d VelocityFilter::convert(const Vector6d& T) { return T; }
 void VelocityFilter::reset(const Vector6d& T) { vfilter.reset(convert(T)); }
 void VelocityFilter::reset() { vfilter.reset(); }
+void VelocityFilter::clear() { vfilter.clear(); }
 void VelocityFilter::add(const Vector6d& T) { vfilter.add(convert(T)); }
 Vector6d VelocityFilter::filter() const { return Vector6d(vfilter.filter()); }
 }
