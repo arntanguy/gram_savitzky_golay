@@ -16,28 +16,25 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
-cmake_minimum_required(VERSION 2.8)
-
-include(cmake/base.cmake)
-include(cmake/eigen.cmake)
-include(cmake/boost.cmake)
+cmake_minimum_required(VERSION 3.1)
 
 set(PROJECT_NAME gram_savitzky_golay)
 set(PROJECT_DESCRIPTION "Implementation of Savitzky-Golay Filtering using Peter A. Gory Gram Polynomials method")
 set(PROJECT_URL "")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-setup_project()
-search_for_eigen()
+project(${PROJECT_NAME} LANGUAGES CXX)
+set(CMAKE_CXX_STANDARD 11)
+
 enable_testing()
 
+find_package(Eigen3 REQUIRED)
 find_package(Boost 1.54 COMPONENTS unit_test_framework REQUIRED)
-
-# Enable C++11
-add_definitions(-std=c++11 -O3)
 
 include_directories(include)
 add_subdirectory(src)
 
-setup_project_finalize()
-
+install(
+  FILES "${CMAKE_SOURCE_DIR}/cmake/gram_savitzky_golayConfig.cmake"
+  DESTINATION lib/cmake/gram_savitzky_golay
+)

@@ -19,16 +19,29 @@
 add_library(gram_savitzky_golay SHARED
   gram_savitzky_golay.cpp
   spatial_filters.cpp
-  )
-pkg_config_append_libs(gram_savitzky_golay)
+)
+
+if(TARGET Eigen3::Eigen)
+  target_link_libraries(gram_savitzky_golay Eigen3::Eigen)
+else()
+  target_include_directories(gram_savitzky_golay
+    PUBLIC
+      ${EIGEN3_INCLUDE_DIRS})
+endif()
 
 install(TARGETS gram_savitzky_golay
+  EXPORT gram_savitzky_golayTargets
   RUNTIME DESTINATION bin
   LIBRARY DESTINATION lib
   ARCHIVE DESTINATION lib)
 
+install(EXPORT gram_savitzky_golayTargets
+  FILE gram_savitzky_golayTargets.cmake
+  NAMESPACE gram_savitzky_golay::
+  DESTINATION lib/cmake/gram_savitzky_golay
+)
+
 install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
-
 
 add_subdirectory(test)
