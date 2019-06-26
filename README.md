@@ -4,6 +4,25 @@ gram_savitzky_golay
 C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in 
 - [General Least-Squares Smoothing and Differentiation by the Convolution (Savitzky-Golay) Method](http://pubs.acs.org/doi/pdf/10.1021/ac00205a007)
 
+Installation
+==
+```sh
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+make
+sudo make install
+```
+
+How to include in your projects?
+==
+This package uses a modern cmake approach and exports its targets. To include in your own project, simply use:
+
+```cmake
+find_package(gram_savitzky_golay REQUIRED)
+add_executable(test test.cpp)
+target_link_libraries(test gram_savitzky_golay)
+```
+
 Example
 ==
 
