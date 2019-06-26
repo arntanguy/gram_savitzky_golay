@@ -20,7 +20,7 @@
 #Add compile target
 add_executable(test_gram_savitzky_golay test_gram_savitzky_golay.cpp)
 #link to Boost libraries AND your targets and dependencies
-target_link_libraries(test_gram_savitzky_golay ${Boost_LIBRARIES} gram_savitzky_golay)
+target_link_libraries(test_gram_savitzky_golay Boost::unit_test_framework gram_savitzky_golay)
 
 #Finally add it to test execution - 
 #Notice the WORKING_DIRECTORY and COMMAND
@@ -33,7 +33,7 @@ add_test(NAME test_gram_savitzky_golay
 #Add compile target
 add_executable(test_spatial_filters test_spatial_filters.cpp)
 #link to Boost libraries AND your targets and dependencies
-target_link_libraries(test_spatial_filters ${Boost_LIBRARIES} gram_savitzky_golay)
+target_link_libraries(test_spatial_filters Boost::unit_test_framework gram_savitzky_golay)
 
 #Finally add it to test execution - 
 #Notice the WORKING_DIRECTORY and COMMAND
