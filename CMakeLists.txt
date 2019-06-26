@@ -23,6 +23,8 @@ set(PROJECT_DESCRIPTION "Implementation of Savitzky-Golay Filtering using Peter 
 set(PROJECT_URL "")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+option(BUILD_TESTS "Build unit tests" ON)
+
 project(${PROJECT_NAME} LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 11)
 
@@ -33,6 +35,12 @@ find_package(Boost 1.54 COMPONENTS unit_test_framework REQUIRED)
 
 include_directories(include)
 add_subdirectory(src)
+
+if(BUILD_TESTS)
+  enable_testing()
+  find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+  add_subdirectory(test)
+endif()
 
 install(
   FILES "${CMAKE_SOURCE_DIR}/cmake/gram_savitzky_golayConfig.cmake"
