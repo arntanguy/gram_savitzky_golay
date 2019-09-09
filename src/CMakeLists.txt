@@ -21,8 +21,9 @@ add_library(gram_savitzky_golay SHARED
   spatial_filters.cpp
 )
 
+target_include_directories(gram_savitzky_golay PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
 if(TARGET Eigen3::Eigen)
-  target_link_libraries(gram_savitzky_golay Eigen3::Eigen)
+  target_link_libraries(gram_savitzky_golay PUBLIC Eigen3::Eigen)
 else()
   target_include_directories(gram_savitzky_golay
     PUBLIC

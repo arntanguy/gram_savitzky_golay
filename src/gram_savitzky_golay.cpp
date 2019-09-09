@@ -79,6 +79,17 @@ SavitzkyGolayFilter::SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf) 
   init();
 }
 
+SavitzkyGolayFilter::SavitzkyGolayFilter() : conf_(SavitzkyGolayFilterConfig())
+{
+  init();
+}
+
+void SavitzkyGolayFilter::configure(const SavitzkyGolayFilterConfig& conf)
+{
+  conf_ = conf;
+  init();
+}
+
 void SavitzkyGolayFilter::init()
 {
   // Compute weights for the time window 2*m+1, for the t'th least-square

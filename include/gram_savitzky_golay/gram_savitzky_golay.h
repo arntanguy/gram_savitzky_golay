@@ -51,17 +51,18 @@ std::vector<double> ComputeWeights(const int m, const int t, const int n, const 
 struct SavitzkyGolayFilterConfig
 {
   //! Window size is 2*m+1
-  int m;
+  int m = 5;
   //! Time at which the filter is applied
   // For real-time, should be t=m
-  int t;
+  int t = 5;
   //! Polynomial order
-  int n;
+  int n = 3;
   //! Derivation order (0 for no derivation)
-  int s;
+  int s = 0;
   //! Time step
-  double dt;
+  double dt = 1;
 
+  SavitzkyGolayFilterConfig() {}
   SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s, const double dt = 1.) : m(m), t(t), n(n), s(s), dt(dt)
   {
   }
@@ -98,7 +99,7 @@ class SavitzkyGolayFilter
 {
  public:
  private:
-  const SavitzkyGolayFilterConfig conf_;
+  SavitzkyGolayFilterConfig conf_;
   std::vector<double> weights_;
   void init();
   double dt_;
@@ -106,6 +107,9 @@ class SavitzkyGolayFilter
  public:
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
   SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf);
+  SavitzkyGolayFilter();
+
+  void configure(const SavitzkyGolayFilterConfig& conf);
 
   /**
    * @brief Apply Savitzky-Golay convolution to the data x should have size 2*m+1
