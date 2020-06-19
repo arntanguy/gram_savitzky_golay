@@ -39,7 +39,7 @@ add_subdirectory(src)
 if(BUILD_TESTS)
   enable_testing()
   find_package(Boost COMPONENTS unit_test_framework REQUIRED)
-  add_subdirectory(test)
+  add_subdirectory(tests)
 endif()
 
 install(

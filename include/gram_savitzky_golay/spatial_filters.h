@@ -17,37 +17,37 @@
 //  along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
-#include <gram_savitzky_golay/gram_savitzky_golay.h>
 #include <boost/circular_buffer.hpp>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+#include <gram_savitzky_golay/gram_savitzky_golay.h>
 
 namespace gram_sg
 {
-using Vector6d = Eigen::Matrix< double, 6, 1>;
+using Vector6d = Eigen::Matrix<double, 6, 1>;
 
-template <typename T>
+template<typename T>
 class EigenVectorFilter
 {
- protected:
+protected:
   /** Filtering **/
   gram_sg::SavitzkyGolayFilterConfig sg_conf;
   gram_sg::SavitzkyGolayFilter sg_filter;
   // Buffers for Savitzky_golay
   boost::circular_buffer<T> buffer;
 
- public:
-  EigenVectorFilter(const gram_sg::SavitzkyGolayFilterConfig& conf)
-      : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
+public:
+  EigenVectorFilter(const gram_sg::SavitzkyGolayFilterConfig & conf)
+  : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
   {
     reset(T::Zero());
   }
 
-  void reset(const T& data)
+  void reset(const T & data)
   {
     buffer.clear();
     // Initialize to data
-    for (size_t i = 0; i < buffer.capacity(); i++)
+    for(size_t i = 0; i < buffer.capacity(); i++)
     {
       buffer.push_back(data);
     }
@@ -63,8 +63,14 @@ class EigenVectorFilter
     buffer.clear();
   }
 
-  void add(const T& data) { buffer.push_back(data); }
-  T filter() const { return sg_filter.filter(buffer); }
+  void add(const T & data)
+  {
+    buffer.push_back(data);
+  }
+  T filter() const
+  {
+    return sg_filter.filter(buffer);
+  }
   gram_sg::SavitzkyGolayFilterConfig config() const
   {
     return sg_conf;
@@ -90,12 +96,12 @@ class RotationFilter
   // Buffers for Savitzky_golay
   boost::circular_buffer<Eigen::Matrix3d> buffer;
 
- public:
-  RotationFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
-  void reset(const Eigen::Matrix3d& r);
+public:
+  RotationFilter(const gram_sg::SavitzkyGolayFilterConfig & conf);
+  void reset(const Eigen::Matrix3d & r);
   void reset();
   void clear();
-  void add(const Eigen::Matrix3d& r);
+  void add(const Eigen::Matrix3d & r);
   Eigen::Matrix3d filter() const;
   bool ready() const
   {
@@ -111,16 +117,16 @@ class RotationFilter
  */
 class TransformFilter
 {
- private:
+private:
   EigenVectorFilter<Eigen::Vector3d> trans_filter;
   RotationFilter rot_filter;
 
- public:
-  TransformFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
-  void reset(const Eigen::Affine3d& T);
+public:
+  TransformFilter(const gram_sg::SavitzkyGolayFilterConfig & conf);
+  void reset(const Eigen::Affine3d & T);
   void reset();
   void clear();
-  void add(const Eigen::Affine3d& T);
+  void add(const Eigen::Affine3d & T);
   Eigen::Affine3d filter() const;
   gram_sg::SavitzkyGolayFilterConfig config() const
   {
@@ -132,4 +138,4 @@ class TransformFilter
   }
 };
 
-}
+} // namespace gram_sg

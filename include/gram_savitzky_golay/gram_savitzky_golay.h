@@ -26,8 +26,8 @@
 namespace gram_sg
 {
 /*! GRAMPOLY Calculates the Gram Polynomial (s=0) or its sth derivative
-  *  evaluated at i, order k, over 2m+1 points
-  */
+ *  evaluated at i, order k, over 2m+1 points
+ */
 double GramPoly(const int i, const int m, const int k, const int s);
 
 /*! GenFact Calculates the generalized factorial (a)(a-1)(a-2)...(a-b+1)
@@ -36,9 +36,9 @@ double GramPoly(const int i, const int m, const int k, const int s);
 double GenFact(const int a, const int b);
 
 /*!
-     * Weight Calculates the weight of the ith data point for the t'th
-     * Least-Square point of the s'th derivative, over 2m+1 points, order n
-     */
+ * Weight Calculates the weight of the ith data point for the t'th
+ * Least-Square point of the s'th derivative, over 2m+1 points, order n
+ */
 double Weight(const int i, const int t, const int m, const int n, const int s);
 
 /*!
@@ -62,7 +62,8 @@ struct SavitzkyGolayFilterConfig
   double dt = 1;
 
   SavitzkyGolayFilterConfig() {}
-  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s, const double dt = 1.) : m(m), t(t), n(n), s(s), dt(dt)
+  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s, const double dt = 1.)
+  : m(m), t(t), n(n), s(s), dt(dt)
   {
   }
 
@@ -83,7 +84,7 @@ struct SavitzkyGolayFilterConfig
 
   unsigned window_size() const
   {
-    return 2*m+1;
+    return 2 * m + 1;
   }
 
   double time_step() const
@@ -91,16 +92,16 @@ struct SavitzkyGolayFilterConfig
     return dt;
   }
 
-  friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
+  friend std::ostream & operator<<(std::ostream & os, const SavitzkyGolayFilterConfig & conf);
 };
 
 struct SavitzkyGolayFilter
 {
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
-  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf);
+  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig & conf);
   SavitzkyGolayFilter();
 
-  void configure(const SavitzkyGolayFilterConfig& conf);
+  void configure(const SavitzkyGolayFilterConfig & conf);
 
   /**
    * @brief Apply Savitzky-Golay convolution to the data x should have size 2*m+1
@@ -115,13 +116,14 @@ struct SavitzkyGolayFilter
    *
    * @return Filtered value according to the precomputed filter weights.
    */
-  template <typename ContainerT>
-  typename ContainerT::value_type filter(const ContainerT& v) const
+  template<typename ContainerT>
+  typename ContainerT::value_type filter(const ContainerT & v) const
   {
     assert(v.size() == weights_.size() && v.size() > 0);
     using T = typename ContainerT::value_type;
-    T res = weights_[0]*v[0];
-    for (int i = 1; i < v.size(); ++i) {
+    T res = weights_[0] * v[0];
+    for(int i = 1; i < v.size(); ++i)
+    {
       res += weights_[i] * v[i];
     }
     return res / dt_;
@@ -137,11 +139,11 @@ struct SavitzkyGolayFilter
     return conf_;
   }
 
- private:
+private:
   SavitzkyGolayFilterConfig conf_;
   std::vector<double> weights_;
   void init();
   double dt_;
 };
 
-} /* gram_sg */
+} // namespace gram_sg
