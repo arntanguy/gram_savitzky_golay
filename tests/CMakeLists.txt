@@ -17,27 +17,14 @@
 # along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
 
-#Add compile target
-add_executable(test_gram_savitzky_golay test_gram_savitzky_golay.cpp)
-#link to Boost libraries AND your targets and dependencies
-target_link_libraries(test_gram_savitzky_golay Boost::unit_test_framework gram_savitzky_golay)
+macro(add_test_simple NAME)
+  add_executable(${NAME} ${NAME}.cpp)
+  target_link_libraries(${NAME} PUBLIC Boost::unit_test_framework Boost::disable_autolinking gram_savitzky_golay) 
+  target_compile_definitions(${NAME} PRIVATE -DBOOST_TEST_DYN_LINK -DBOOST_TEST_MAIN)
+  add_test(${NAME} ${NAME})
+  # Adding a project configuration file (for MSVC only)
+  generate_msvc_dot_user_file(${NAME})
+ENDMACRO()
 
-#Finally add it to test execution - 
-#Notice the WORKING_DIRECTORY and COMMAND
-add_test(NAME test_gram_savitzky_golay
-              WORKING_DIRECTORY ${CMAKE_CURRENT_DIRECTORY}
-              COMMAND ${CMAKE_CURRENT_DIRECTORY}/test_gram_savitzky_golay )
-
-
-
-#Add compile target
-add_executable(test_spatial_filters test_spatial_filters.cpp)
-#link to Boost libraries AND your targets and dependencies
-target_link_libraries(test_spatial_filters Boost::unit_test_framework gram_savitzky_golay)
-
-#Finally add it to test execution - 
-#Notice the WORKING_DIRECTORY and COMMAND
-add_test(NAME test_spatial_filters
-              WORKING_DIRECTORY ${CMAKE_CURRENT_DIRECTORY}
-              COMMAND ${CMAKE_CURRENT_DIRECTORY}/test_spatial_filters )
-
+add_test_simple(test_gram_savitzky_golay)
+add_test_simple(test_spatial_filters)

@@ -16,9 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
-// Link to Boost
-#define BOOST_TEST_DYN_LINK
-
 // Define our Module name (prints at testing)
 #define BOOST_TEST_MODULE MyTest
 
@@ -37,8 +34,7 @@ BOOST_AUTO_TEST_CASE(TestGorryTables)
   // polynomial order = 2, derivative = 0
   std::vector<double> sg7_gram{32, 15, 3, -4, -6, -3, 5};
 
-  int m = 3;
-  SavitzkyGolayFilter filter(m, -m, 2, 0);
+  SavitzkyGolayFilter filter(3, -3, 2, 0);
 
   const auto & filter_weights = filter.weights();
   for(unsigned int i = 0; i < sg7_gram.size(); i++)
@@ -57,8 +53,7 @@ BOOST_AUTO_TEST_CASE(TestGorryDerivative)
   // polynomial order = 2, derivative = 1
   std::vector<double> sg7_deriv_gram{-13, -2, 5, 8, 7, 2, -7};
 
-  int m = 3;
-  SavitzkyGolayFilter filter(m, -m, 2, 1);
+  SavitzkyGolayFilter filter(3, -3, 2, 1);
 
   const auto & filter_weights = filter.weights();
   for(unsigned int i = 0; i < sg7_deriv_gram.size(); i++)
@@ -70,8 +65,7 @@ BOOST_AUTO_TEST_CASE(TestGorryDerivative)
 
 BOOST_AUTO_TEST_CASE(TestIdentity)
 {
-  int m = 3;
-  SavitzkyGolayFilter filter(m, 0, 2, 0);
+  SavitzkyGolayFilter filter(3, 0, 2, 0);
   std::vector<double> data = {1, 1, 1, 1, 1, 1, 1};
   double res = filter.filter(data);
   BOOST_REQUIRE_CLOSE(res, 1, 10e-6);
@@ -80,9 +74,9 @@ BOOST_AUTO_TEST_CASE(TestIdentity)
 BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
 {
   // Window size is 2*m+1
-  const int m = 3;
+  const unsigned m = 3;
   // Polynomial Order
-  const int n = 2;
+  const unsigned n = 2;
   // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
   // Points are defined in range [-m;m]
   const int t = m;
@@ -99,9 +93,9 @@ BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
 BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 {
   // Window size is 2*m+1
-  const int m = 3;
+  const unsigned m = 3;
   // Polynomial Order
-  const int n = 2;
+  const unsigned n = 2;
   // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
   // Points are defined in range [-m;m]
   const int t = m;
@@ -158,9 +152,9 @@ BOOST_AUTO_TEST_CASE(TestPolynomialDerivative)
   double timeStep = 0.42;
 
   // Window size is 2*m+1
-  const int m = 50;
+  const unsigned m = 50;
   // Polynomial Order
-  const int n = 3;
+  const unsigned n = 3;
   // Points are defined in range [-m;m]
   // Eval at central point
   const int t = 0;
@@ -186,27 +180,4 @@ BOOST_AUTO_TEST_CASE(TestPolynomialDerivative)
 
   BOOST_REQUIRE_CLOSE(result_order1, expected_result_order1, 10e-8);
   BOOST_REQUIRE_CLOSE(result_order2, expected_result_order2, 10e-8);
-}
-
-BOOST_AUTO_TEST_CASE(FilterSpeed)
-{
-  int m = 10000;
-  SavitzkyGolayFilter filter(m, 0, 2, 0);
-  std::vector<double> data(2 * m + 1, 1.);
-
-  double totalTime = 0;
-  int Nsample = 1000;
-  for(int i = 0; i < Nsample; ++i)
-  {
-    auto start_time = std::chrono::high_resolution_clock::now();
-    filter.filter(data);
-    auto end_time = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
-    totalTime += elapsed.count();
-  }
-  totalTime /= Nsample;
-  std::cout << "Filtering performed in " << totalTime << " (ms)" << std::endl;
-  ;
-
-  BOOST_REQUIRE(totalTime < 0.0001);
 }

@@ -64,41 +64,19 @@ double Weight(const int i, const int t, const int m, const int n, const int s)
 
 std::vector<double> ComputeWeights(const int m, const int t, const int n, const int s)
 {
-  std::vector<double> weights(2 * m + 1);
+  std::vector<double> weights(2 * static_cast<size_t>(m) + 1);
   for(int i = 0; i < 2 * m + 1; ++i)
   {
-    weights[i] = Weight(i - m, t, m, n, s);
+    weights[static_cast<size_t>(i)] = Weight(i - m, t, m, n, s);
   }
   return weights;
-}
-
-SavitzkyGolayFilter::SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt)
-: conf_(m, t, n, s, dt)
-{
-  init();
-}
-
-SavitzkyGolayFilter::SavitzkyGolayFilter(const SavitzkyGolayFilterConfig & conf) : conf_(conf)
-{
-  init();
-}
-
-SavitzkyGolayFilter::SavitzkyGolayFilter() : conf_(SavitzkyGolayFilterConfig())
-{
-  init();
-}
-
-void SavitzkyGolayFilter::configure(const SavitzkyGolayFilterConfig & conf)
-{
-  conf_ = conf;
-  init();
 }
 
 void SavitzkyGolayFilter::init()
 {
   // Compute weights for the time window 2*m+1, for the t'th least-square
   // point of the s'th derivative
-  weights_ = ComputeWeights(conf_.m, conf_.t, conf_.n, conf_.s);
+  weights_ = ComputeWeights(static_cast<int>(conf_.m), conf_.t, static_cast<int>(conf_.n), static_cast<int>(conf_.s));
   dt_ = std::pow(conf_.time_step(), conf_.derivation_order());
 }
 

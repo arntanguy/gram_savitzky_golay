@@ -17,9 +17,11 @@
 //  along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
 #pragma once
+
 #include <boost/circular_buffer.hpp>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
+#include <gram_savitzky_golay/api.h>
 #include <gram_savitzky_golay/gram_savitzky_golay.h>
 
 namespace gram_sg
@@ -27,16 +29,8 @@ namespace gram_sg
 using Vector6d = Eigen::Matrix<double, 6, 1>;
 
 template<typename T>
-class EigenVectorFilter
+struct GRAM_SAVITZKY_GOLAY_DLLAPI EigenVectorFilter
 {
-protected:
-  /** Filtering **/
-  gram_sg::SavitzkyGolayFilterConfig sg_conf;
-  gram_sg::SavitzkyGolayFilter sg_filter;
-  // Buffers for Savitzky_golay
-  boost::circular_buffer<T> buffer;
-
-public:
   EigenVectorFilter(const gram_sg::SavitzkyGolayFilterConfig & conf)
   : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
   {
@@ -80,6 +74,13 @@ public:
   {
     return buffer.size() == buffer.capacity();
   }
+
+protected:
+  /** Filtering **/
+  gram_sg::SavitzkyGolayFilterConfig sg_conf;
+  gram_sg::SavitzkyGolayFilter sg_filter;
+  // Buffers for Savitzky_golay
+  boost::circular_buffer<T> buffer;
 };
 
 /**
@@ -88,15 +89,8 @@ public:
  * https://www.cvl.isy.liu.se/education/graduate/geometry2010/lectures/Lecture7b.pdf
  * Adapted to real time filtering through Savitzky-Golay
  **/
-class RotationFilter
+struct GRAM_SAVITZKY_GOLAY_DLLAPI RotationFilter
 {
-  /** Filtering **/
-  gram_sg::SavitzkyGolayFilterConfig sg_conf;
-  gram_sg::SavitzkyGolayFilter sg_filter;
-  // Buffers for Savitzky_golay
-  boost::circular_buffer<Eigen::Matrix3d> buffer;
-
-public:
   RotationFilter(const gram_sg::SavitzkyGolayFilterConfig & conf);
   void reset(const Eigen::Matrix3d & r);
   void reset();
@@ -107,6 +101,13 @@ public:
   {
     return buffer.size() == buffer.capacity();
   }
+
+protected:
+  /** Filtering **/
+  gram_sg::SavitzkyGolayFilterConfig sg_conf;
+  gram_sg::SavitzkyGolayFilter sg_filter;
+  // Buffers for Savitzky_golay
+  boost::circular_buffer<Eigen::Matrix3d> buffer;
 };
 
 /**
@@ -115,13 +116,8 @@ public:
  * components, and then each component is filtered individually
  * Finally the result is converted back to an Affine3d
  */
-class TransformFilter
+struct GRAM_SAVITZKY_GOLAY_DLLAPI TransformFilter
 {
-private:
-  EigenVectorFilter<Eigen::Vector3d> trans_filter;
-  RotationFilter rot_filter;
-
-public:
   TransformFilter(const gram_sg::SavitzkyGolayFilterConfig & conf);
   void reset(const Eigen::Affine3d & T);
   void reset();
@@ -136,6 +132,10 @@ public:
   {
     return trans_filter.ready() && rot_filter.ready();
   }
+
+protected:
+  EigenVectorFilter<Eigen::Vector3d> trans_filter;
+  RotationFilter rot_filter;
 };
 
 } // namespace gram_sg

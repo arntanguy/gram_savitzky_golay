@@ -16,13 +16,14 @@
 // You should have received a copy of the GNU Lesser General Public License
 // along with robcalib.  If not, see <http://www.gnu.org/licenses/>.
 
-// Link to Boost
-#define BOOST_TEST_DYN_LINK
-
 #define BOOST_TEST_MODULE TestSpatialFilters
 #include <boost/test/unit_test.hpp>
-
 #include <gram_savitzky_golay/spatial_filters.h>
+
+#ifndef M_PI
+#  include <boost/math/constants/constants.hpp>
+#  define M_PI boost::math::constants::pi<double>()
+#endif
 
 using namespace gram_sg;
 

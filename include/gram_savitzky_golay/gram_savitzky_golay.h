@@ -20,73 +20,111 @@
 
 #include <Eigen/Core>
 #include <cassert>
+#include <gram_savitzky_golay/api.h>
 #include <sstream>
 #include <vector>
 
 namespace gram_sg
 {
-/*! GRAMPOLY Calculates the Gram Polynomial (s=0) or its sth derivative
+/*!
+ * @brief Calculates the Gram Polynomial (s=0) or its sth derivative
  *  evaluated at i, order k, over 2m+1 points
  */
-double GramPoly(const int i, const int m, const int k, const int s);
+double GRAM_SAVITZKY_GOLAY_DLLAPI GramPoly(const int i, const int m, const int k, const int s);
 
-/*! GenFact Calculates the generalized factorial (a)(a-1)(a-2)...(a-b+1)
- *    Detailed explanation goes here
+/*!
+ * @brief Calculates the generalized factorial \f$ (a)(a-1)(a-2)...(a-b+1) \f$
  */
-double GenFact(const int a, const int b);
+double GRAM_SAVITZKY_GOLAY_DLLAPI GenFact(const int a, const int b);
 
 /*!
  * Weight Calculates the weight of the ith data point for the t'th
- * Least-Square point of the s'th derivative, over 2m+1 points, order n
+ * Least-Square point of the s'th derivative, over `2m+1` points, order n
  */
-double Weight(const int i, const int t, const int m, const int n, const int s);
+double GRAM_SAVITZKY_GOLAY_DLLAPI Weight(const int i, const int t, const int m, const int n, const int s);
 
 /*!
- * Computes the weights for each data point over the window of size 2*m+1,
+ * Computes the weights for each data point over the window of size `2*m+1`,
  * evaluated at time t, with order n and derivative s
  */
-std::vector<double> ComputeWeights(const int m, const int t, const int n, const int s);
+std::vector<double> GRAM_SAVITZKY_GOLAY_DLLAPI ComputeWeights(const int m, const int t, const int n, const int s);
 
-struct SavitzkyGolayFilterConfig
+struct GRAM_SAVITZKY_GOLAY_DLLAPI SavitzkyGolayFilterConfig
 {
   //! Window size is 2*m+1
-  int m = 5;
+  unsigned m = 5;
   //! Time at which the filter is applied
   // For real-time, should be t=m
   int t = 5;
   //! Polynomial order
-  int n = 3;
+  unsigned n = 3;
   //! Derivation order (0 for no derivation)
-  int s = 0;
+  unsigned s = 0;
   //! Time step
   double dt = 1;
 
+  /**
+   * @brief Construct a filter with default weights
+   */
   SavitzkyGolayFilterConfig() {}
-  SavitzkyGolayFilterConfig(const int m, const int t, const int n, const int s, const double dt = 1.)
-  : m(m), t(t), n(n), s(s), dt(dt)
+
+  /**
+   * @brief Construct a filter with the specified configuration
+   *
+   * @param m Window size is `2*m+1`
+   * @param t Time at which the filter is applied
+   * - `t=m` for real-time filtering.
+   *   This uses only past information to determine the filter value and thus
+   *   does not introduce delay. However, this comes at the cost of filtering
+   *   accuracy as no future information is available.
+   * - `t=0` for smoothing. Uses both past and future information to determine the optimal
+   *   filtered value
+   * @param n Polynamial order
+   * @param s Derivation order
+   * - `0`: No derivation
+   * - `1`: First order derivative
+   * - `2`: Second order derivative
+   * @param dt Time step
+   */
+  SavitzkyGolayFilterConfig(unsigned m, int t, unsigned n, unsigned s, double dt = 1.) : m(m), t(t), n(n), s(s), dt(dt)
   {
   }
 
-  unsigned data_point() const
+  /**
+   * @brief Time at which the filter is evaluated
+   */
+  int data_point() const
   {
     return t;
   }
 
+  /**
+   * @brief Derivation order
+   */
   unsigned derivation_order() const
   {
     return s;
   }
 
+  /**
+   * @brief Polynomial order
+   */
   unsigned order() const
   {
     return n;
   }
 
+  /**
+   * @brief Full size of the filter's window `2*m+1`
+   */
   unsigned window_size() const
   {
     return 2 * m + 1;
   }
 
+  /**
+   * @brief Time step
+   */
   double time_step() const
   {
     return dt;
@@ -95,13 +133,28 @@ struct SavitzkyGolayFilterConfig
   friend std::ostream & operator<<(std::ostream & os, const SavitzkyGolayFilterConfig & conf);
 };
 
-struct SavitzkyGolayFilter
+struct GRAM_SAVITZKY_GOLAY_DLLAPI SavitzkyGolayFilter
 {
-  SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
-  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig & conf);
-  SavitzkyGolayFilter();
+  SavitzkyGolayFilter(unsigned m, int t, unsigned n, unsigned s, double dt = 1.) : conf_(m, t, n, s, dt)
+  {
+    init();
+  }
 
-  void configure(const SavitzkyGolayFilterConfig & conf);
+  SavitzkyGolayFilter(const SavitzkyGolayFilterConfig & conf) : conf_(conf)
+  {
+    init();
+  }
+
+  SavitzkyGolayFilter()
+  {
+    init();
+  }
+
+  void configure(const SavitzkyGolayFilterConfig & conf)
+  {
+    conf_ = conf;
+    init();
+  }
 
   /**
    * @brief Apply Savitzky-Golay convolution to the data x should have size 2*m+1
