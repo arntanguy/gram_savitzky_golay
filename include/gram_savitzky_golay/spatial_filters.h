@@ -64,7 +64,7 @@ class EigenVectorFilter
   }
 
   void add(const T& data) { buffer.push_back(data); }
-  T filter() const { return sg_filter.filter(buffer, T::Zero()); }
+  T filter() const { return sg_filter.filter(buffer); }
   gram_sg::SavitzkyGolayFilterConfig config() const
   {
     return sg_conf;
@@ -106,7 +106,7 @@ class RotationFilter
 /**
  * @brief Filters Affine3d
  * The transformations are first converted to their translation and RPY
- * compenents, and then each component is filtered individually
+ * components, and then each component is filtered individually
  * Finally the result is converted back to an Affine3d
  */
 class TransformFilter
@@ -129,30 +129,6 @@ class TransformFilter
   bool ready() const
   {
     return trans_filter.ready() && rot_filter.ready();
-  }
-};
-
-class VelocityFilter
-{
- private:
-  EigenVectorFilter<Vector6d> vfilter;
-
-  Vector6d convert(const Vector6d& T);
-
- public:
-  VelocityFilter(const gram_sg::SavitzkyGolayFilterConfig& conf);
-  void reset(const Vector6d& T);
-  void reset();
-  void clear();
-  void add(const Vector6d& T);
-  Vector6d filter() const;
-  gram_sg::SavitzkyGolayFilterConfig config() const
-  {
-    return vfilter.config();
-  }
-  bool ready() const
-  {
-    return vfilter.ready();
   }
 };
 

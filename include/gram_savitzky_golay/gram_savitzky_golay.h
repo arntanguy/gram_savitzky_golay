@@ -20,7 +20,6 @@
 
 #include <Eigen/Core>
 #include <cassert>
-#include <cstddef>
 #include <sstream>
 #include <vector>
 
@@ -95,16 +94,8 @@ struct SavitzkyGolayFilterConfig
   friend std::ostream& operator<<(std::ostream& os, const SavitzkyGolayFilterConfig& conf);
 };
 
-class SavitzkyGolayFilter
+struct SavitzkyGolayFilter
 {
- public:
- private:
-  SavitzkyGolayFilterConfig conf_;
-  std::vector<double> weights_;
-  void init();
-  double dt_;
-
- public:
   SavitzkyGolayFilter(const int m, const int t, const int n, const int s, const double dt = 1.);
   SavitzkyGolayFilter(const SavitzkyGolayFilterConfig& conf);
   SavitzkyGolayFilter();
@@ -122,21 +113,16 @@ class SavitzkyGolayFilter
    * and addition with itself
    * Common types would be std::vector<double>, std::vector<Eigen::VectorXd>, boost::circular_buffer<Eigen::Vector3d>...
    *
-   * @param initial_value Initial value for the filter's accumulator. It should be the zero.
-   *
    * @return Filtered value according to the precomputed filter weights.
    */
   template <typename ContainerT>
-  typename ContainerT::value_type filter(const ContainerT& v, typename ContainerT::value_type&& initial_value) const
+  typename ContainerT::value_type filter(const ContainerT& v) const
   {
-    assert(v.size() == weights_.size());
+    assert(v.size() == weights_.size() && v.size() > 0);
     using T = typename ContainerT::value_type;
-    T res = initial_value;
-    int i = 0;
-    for (const T& value : v)
-    {
-      res += weights_[i] * value;
-      ++i;
+    T res = weights_[0]*v[0];
+    for (int i = 1; i < v.size(); ++i) {
+      res += weights_[i] * v[i];
     }
     return res / dt_;
   }
@@ -145,10 +131,17 @@ class SavitzkyGolayFilter
   {
     return weights_;
   }
+
   SavitzkyGolayFilterConfig config() const
   {
     return conf_;
   }
+
+ private:
+  SavitzkyGolayFilterConfig conf_;
+  std::vector<double> weights_;
+  void init();
+  double dt_;
 };
 
 } /* gram_sg */

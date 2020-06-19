@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(TestIdentity)
   int m = 3;
   SavitzkyGolayFilter filter(m, 0, 2, 0);
   std::vector<double> data = {1, 1, 1, 1, 1, 1, 1};
-  double res = filter.filter(data, 0.);
+  double res = filter.filter(data);
   BOOST_REQUIRE_CLOSE(res, 1, 10e-6);
 }
 
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(TestRealTimeFilter)
 
   // Filter some data
   std::vector<double> data = {.1, .7, .9, .7, .8, .5, -.3};
-  double result = filter.filter(data, 0.);
+  double result = filter.filter(data);
   double result_ref = -0.22619047619047616;
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 }
@@ -129,23 +129,23 @@ BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 
   // Filter some data
   std::vector<double> data = {.1, .2, .3, .4, .5, .6, .7};
-  double result = filter.filter(data, 0.);
+  double result = filter.filter(data);
   double result_ref = 0.1;
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 
   // Test filtering with timestep=0.005
   data = {.1, .2, .3, .4, .5, .6, .7};
-  result = filter_dt.filter(data, 0.);
+  result = filter_dt.filter(data);
   result_ref = 0.1/filter_dt.config().time_step();
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 
   // Filter some data
   data = {-1, -2, -3, -4, -5, -6, -7};
-  result = filter.filter(data, 0.);
+  result = filter.filter(data);
   result_ref = -1;
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
   // Test filtering with timestep=0.005
-  result = filter_dt.filter(data, 0.);
+  result = filter_dt.filter(data);
   result_ref = -1./filter_dt.config().time_step();
   BOOST_REQUIRE_CLOSE(result, result_ref, 10e-6);
 
@@ -156,14 +156,13 @@ BOOST_AUTO_TEST_CASE(TestRealTimeDerivative)
 
   // Filter some data
   data = {.1, .2, .3, .4, .5, .6, .7};
-  result = second_order_filter.filter(data, 0.);
+  result = second_order_filter.filter(data);
   BOOST_CHECK_SMALL(result, 10e-6);
 
   // Filter some data
   data = {-1, -2, -3, -4, -5, -6, -7};
-  result = second_order_filter.filter(data, 0.);
+  result = second_order_filter.filter(data);
   BOOST_CHECK_SMALL(result, 10e-6);
-
 }
 
 // Test derivation on a known polynomial function
@@ -198,9 +197,9 @@ BOOST_AUTO_TEST_CASE(TestPolynomialDerivative)
     derivative_order1[x] = (3*a*std::pow(x, 2) + 2*b*std::pow(x,1) + c)/timeStep;
     derivative_order2[x] = (6*a*std::pow(x, 1) + 2*b) / std::pow(timeStep,2);
   }
-  const auto result_order1 = filter_order1.filter(data, 0.);
+  const auto result_order1 = filter_order1.filter(data);
   const auto expected_result_order1 = derivative_order1[m];
-  const auto result_order2 = filter_order2.filter(data, 0.);
+  const auto result_order2 = filter_order2.filter(data);
   const auto expected_result_order2 = derivative_order2[m];
 
   BOOST_REQUIRE_CLOSE(result_order1, expected_result_order1, 10e-8);
@@ -217,7 +216,7 @@ BOOST_AUTO_TEST_CASE(FilterSpeed)
     int Nsample = 1000;
     for (int i = 0; i < Nsample; ++i) {
       auto start_time = std::chrono::high_resolution_clock::now();
-      filter.filter(data, 0.);
+      filter.filter(data);
       auto end_time = std::chrono::high_resolution_clock::now();
       std::chrono::duration<double, std::milli> elapsed = end_time - start_time;
       totalTime += elapsed.count();

@@ -55,7 +55,7 @@ Eigen::Matrix3d RotationFilter::filter() const
 {
   // Apply a temporal (savitzky-golay) convolution,
   // followed by an orthogonalization
-  const Eigen::Matrix3d& result = sg_filter.filter(buffer, Eigen::Matrix3d::Zero());
+  const Eigen::Matrix3d& result = sg_filter.filter(buffer);
   Eigen::JacobiSVD<Eigen::Matrix3d> svd(result, Eigen::ComputeFullV | Eigen::ComputeFullU);
   Eigen::Matrix3d res = svd.matrixU() * svd.matrixV().transpose();
   return res;
@@ -99,11 +99,4 @@ Eigen::Affine3d TransformFilter::filter() const
   return Eigen::Affine3d(rot);
 }
 
-VelocityFilter::VelocityFilter(const gram_sg::SavitzkyGolayFilterConfig& conf) : vfilter(conf) {}
-Vector6d VelocityFilter::convert(const Vector6d& T) { return T; }
-void VelocityFilter::reset(const Vector6d& T) { vfilter.reset(convert(T)); }
-void VelocityFilter::reset() { vfilter.reset(); }
-void VelocityFilter::clear() { vfilter.clear(); }
-void VelocityFilter::add(const Vector6d& T) { vfilter.add(convert(T)); }
-Vector6d VelocityFilter::filter() const { return Vector6d(vfilter.filter()); }
 }
