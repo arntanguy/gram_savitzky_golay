@@ -122,7 +122,7 @@ struct SavitzkyGolayFilter
     assert(v.size() == weights_.size() && v.size() > 0);
     using T = typename ContainerT::value_type;
     T res = weights_[0] * v[0];
-    for(int i = 1; i < v.size(); ++i)
+    for(size_t i = 1; i < v.size(); ++i)
     {
       res += weights_[i] * v[i];
     }

@@ -20,29 +20,28 @@ cmake_minimum_required(VERSION 3.1)
 
 set(PROJECT_NAME gram_savitzky_golay)
 set(PROJECT_DESCRIPTION "Implementation of Savitzky-Golay Filtering using Peter A. Gory Gram Polynomials method")
-set(PROJECT_URL "")
+set(PROJECT_URL "https://github.com/arntanguy/gram_savitzky_golay")
+set(PROJECT_VERSION 1.0)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(PROJECT_USE_CMAKE_EXPORT TRUE)
+set(CMAKE_CXX_STANDARD 11)
 
 option(BUILD_TESTS "Build unit tests" ON)
 
+include(cmake/base.cmake)
+include(cmake/boost.cmake)
+include(cmake/eigen.cmake)
+
 project(${PROJECT_NAME} LANGUAGES CXX)
-set(CMAKE_CXX_STANDARD 11)
 
 enable_testing()
 
-find_package(Eigen3 REQUIRED)
-find_package(Boost 1.54 COMPONENTS unit_test_framework REQUIRED)
-
-include_directories(include)
+add_project_dependency(Eigen3 REQUIRED)
 add_subdirectory(src)
 
 if(BUILD_TESTS)
+  find_package(Boost 1.54 COMPONENTS unit_test_framework REQUIRED)
   enable_testing()
   find_package(Boost COMPONENTS unit_test_framework REQUIRED)
   add_subdirectory(tests)
 endif()
-
-install(
-  FILES "${CMAKE_SOURCE_DIR}/cmake/gram_savitzky_golayConfig.cmake"
-  DESTINATION lib/cmake/gram_savitzky_golay
-)
