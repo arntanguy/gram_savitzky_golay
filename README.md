@@ -1,6 +1,9 @@
 gram_savitzky_golay
 ==
 
+![CI of gram-savitzy-golay](https://github.com/arntanguy/gram_savitzky_golay/workflows/CI%20of%20gram-savitzy-golay/badge.svg)
+[![Documentation](https://img.shields.io/badge/website-online-brightgreen?logo=read-the-docs&style=flat)](https://arntanguy.github.io/gram_savitzky_golay/)
+
 C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in 
 - [General Least-Squares Smoothing and Differentiation by the Convolution (Savitzky-Golay) Method](http://pubs.acs.org/doi/pdf/10.1021/ac00205a007)
 
@@ -18,9 +21,17 @@ How to include in your projects?
 This package uses a modern cmake approach and exports its targets. To include in your own project, simply use:
 
 ```cmake
+cmake_minimum_required(VERSION 3.1)
+set(CMAKE_CXX_STANDARD 11)
+
+project(Example LANGUAGES CXX)
+
+# Find the state-observation package and all its dependencies (Eigen)
 find_package(gram_savitzky_golay REQUIRED)
-add_executable(test test.cpp)
-target_link_libraries(test gram_savitzky_golay)
+
+# Creates a new executable and link it with the `gram_savitzky_golay` target
+add_executable(Example example.cpp)
+target_link_libraries(Example PUBLIC gram_savitzky_golay::gram_savitzky_golay)
 ```
 
 Example
@@ -36,9 +47,8 @@ const size_t n = 2;
 // Initial Point Smoothing (ie evaluate polynomial at first point in the window)
 // Points are defined in range [-m;m]
 const size_t t = m;
-// Derivate? 0: no derivation, 1: first derivative...
+// Derivation order? 0: no derivation, 1: first derivative, 2: second derivative...
 const int d = 0;
-
 
 
 // Real-time filter (filtering at latest data point)
@@ -46,7 +56,6 @@ gram_sg::SavitzkyGolayFilter filter(m, t, n, d);
 // Filter some data
 std::vector<double> data = {.1, .7, .9, .7, .8, .5, -.3};
 double result = filter.filter(data);
-
 
 
 // Real-time derivative filter (filtering at latest data point)
