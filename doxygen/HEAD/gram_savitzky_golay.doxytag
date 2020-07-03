@@ -1,0 +1,601 @@
+<?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
+<tagfile>
+  <compound kind="file">
+    <name>api.h</name>
+    <path>/home/runner/work/gram_savitzky_golay/gram_savitzky_golay/include/gram_savitzky_golay/</path>
+    <filename>a00002</filename>
+    <member kind="define">
+      <type>#define</type>
+      <name>GRAM_SAVITZKY_GOLAY_DLLIMPORT</name>
+      <anchorfile>a00002.html</anchorfile>
+      <anchor>a136a6f844adadd8811fcaf0ee75a2e85</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GRAM_SAVITZKY_GOLAY_DLLEXPORT</name>
+      <anchorfile>a00002.html</anchorfile>
+      <anchor>a676a7c9194e9970b9968b561aa796712</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GRAM_SAVITZKY_GOLAY_DLLLOCAL</name>
+      <anchorfile>a00002.html</anchorfile>
+      <anchor>ad86f0118c7d276d46cb2dad2b4252fb7</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GRAM_SAVITZKY_GOLAY_DLLAPI</name>
+      <anchorfile>a00002.html</anchorfile>
+      <anchor>a748cbfbb49a92d6ad4bf7cd6c504b09a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="define">
+      <type>#define</type>
+      <name>GRAM_SAVITZKY_GOLAY_LOCAL</name>
+      <anchorfile>a00002.html</anchorfile>
+      <anchor>a3068d2381613b494ac3943d2c30101f3</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>gram_savitzky_golay.h</name>
+    <path>/home/runner/work/gram_savitzky_golay/gram_savitzky_golay/include/gram_savitzky_golay/</path>
+    <filename>a00005</filename>
+    <includes id="a00002" name="api.h" local="no" imported="no">gram_savitzky_golay/api.h</includes>
+    <class kind="struct">gram_sg::SavitzkyGolayFilterConfig</class>
+    <class kind="struct">gram_sg::SavitzkyGolayFilter</class>
+    <namespace>gram_sg</namespace>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>GramPoly</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>ae1a652d25771522a027ebd894684fc95</anchor>
+      <arglist>(const int i, const int m, const int k, const int s)</arglist>
+    </member>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>GenFact</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>ae8223ad96723599e5b17da766bf18d15</anchor>
+      <arglist>(const int a, const int b)</arglist>
+    </member>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>Weight</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>aad1e53ab578d91fb5698894768b79745</anchor>
+      <arglist>(const int i, const int t, const int m, const int n, const int s)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; double &gt; GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>ComputeWeights</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>a2f93a4bc77fa46e456c1e34050c27102</anchor>
+      <arglist>(const int m, const int t, const int n, const int s)</arglist>
+    </member>
+  </compound>
+  <compound kind="file">
+    <name>spatial_filters.h</name>
+    <path>/home/runner/work/gram_savitzky_golay/gram_savitzky_golay/include/gram_savitzky_golay/</path>
+    <filename>a00008</filename>
+    <includes id="a00002" name="api.h" local="no" imported="no">gram_savitzky_golay/api.h</includes>
+    <includes id="a00005" name="gram_savitzky_golay.h" local="no" imported="no">gram_savitzky_golay/gram_savitzky_golay.h</includes>
+    <class kind="struct">gram_sg::EigenVectorFilter</class>
+    <class kind="struct">gram_sg::RotationFilter</class>
+    <class kind="struct">gram_sg::TransformFilter</class>
+    <namespace>gram_sg</namespace>
+    <member kind="typedef">
+      <type>Eigen::Matrix&lt; double, 6, 1 &gt;</type>
+      <name>Vector6d</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>afe2fea31e959bda111cba2f1f488ff70</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>gram_sg::EigenVectorFilter</name>
+    <filename>a00577.html</filename>
+    <templarg>T</templarg>
+    <member kind="function">
+      <type></type>
+      <name>EigenVectorFilter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a2deb8761169811e26bedfeefea1ccc74</anchor>
+      <arglist>(const gram_sg::SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>ac435a89db97444a614ff2371455708c3</anchor>
+      <arglist>(const T &amp;data)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>acd4885ab41443e70c317f369066a1f03</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clear</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a4bb162186f9a4375aa8fc455ca1b578f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>add</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a1a5b411a6b5daf1e9ec06eacfc60c9aa</anchor>
+      <arglist>(const T &amp;data)</arglist>
+    </member>
+    <member kind="function">
+      <type>T</type>
+      <name>filter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a6edbc486ab439679b95717f079ea5fe8</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>config</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>af81cb0da578d77439f0790c8b8539124</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>ready</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a70690271f6b59d902280e19ebccc39e1</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>sg_conf</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a42a2dd62f21f128f6a1652bbd4ca5915</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilter</type>
+      <name>sg_filter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>ac58f56334cf25eaafc05b91cd6dab9fa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>boost::circular_buffer&lt; T &gt;</type>
+      <name>buffer</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a1e0eba16c589237c4274ca43a78fa7c3</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="class">
+    <name>EigenVectorFilter&lt; Eigen::Vector3d &gt;</name>
+    <filename>a00577.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>EigenVectorFilter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a2deb8761169811e26bedfeefea1ccc74</anchor>
+      <arglist>(const gram_sg::SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>ac435a89db97444a614ff2371455708c3</anchor>
+      <arglist>(const Eigen::Vector3d &amp;data)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>acd4885ab41443e70c317f369066a1f03</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clear</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a4bb162186f9a4375aa8fc455ca1b578f</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>add</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a1a5b411a6b5daf1e9ec06eacfc60c9aa</anchor>
+      <arglist>(const Eigen::Vector3d &amp;data)</arglist>
+    </member>
+    <member kind="function">
+      <type>Eigen::Vector3d</type>
+      <name>filter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a6edbc486ab439679b95717f079ea5fe8</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>config</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>af81cb0da578d77439f0790c8b8539124</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>ready</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a70690271f6b59d902280e19ebccc39e1</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>sg_conf</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a42a2dd62f21f128f6a1652bbd4ca5915</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilter</type>
+      <name>sg_filter</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>ac58f56334cf25eaafc05b91cd6dab9fa</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>boost::circular_buffer&lt; Eigen::Vector3d &gt;</type>
+      <name>buffer</name>
+      <anchorfile>a00577.html</anchorfile>
+      <anchor>a1e0eba16c589237c4274ca43a78fa7c3</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>gram_sg::RotationFilter</name>
+    <filename>a00581.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>RotationFilter</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a2c98fc2457d4b614393a5adcf52baac1</anchor>
+      <arglist>(const gram_sg::SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a7a839e4f6a908f9542f35ce2497ca225</anchor>
+      <arglist>(const Eigen::Matrix3d &amp;r)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a677e2e1b2e3cd76b39e26e86fff2fb62</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clear</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>af9b9750841426ca189d7d1e2ed2fa783</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>add</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>ae8e181138cfb41065bf15c339e9c0ca8</anchor>
+      <arglist>(const Eigen::Matrix3d &amp;r)</arglist>
+    </member>
+    <member kind="function">
+      <type>Eigen::Matrix3d</type>
+      <name>filter</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a0f36e42cebb918855c69c614abc906a1</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>ready</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>aafcd1b98a39099de0e1c3f08dd5a8801</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>sg_conf</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a423f5bb59a4eb586e39c0a2cbbf2777b</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>gram_sg::SavitzkyGolayFilter</type>
+      <name>sg_filter</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>aa7471d7c2ed569d122b52c35b8ec320f</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>boost::circular_buffer&lt; Eigen::Matrix3d &gt;</type>
+      <name>buffer</name>
+      <anchorfile>a00581.html</anchorfile>
+      <anchor>a2b7e0b36f0143ad01781d75d07020e94</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>gram_sg::SavitzkyGolayFilter</name>
+    <filename>a00573.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>SavitzkyGolayFilter</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>a95af7f37bc2f7b1b4127b8c5773285bb</anchor>
+      <arglist>(unsigned m, int t, unsigned n, unsigned s, double dt=1.)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>SavitzkyGolayFilter</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>ae9c301aebf9d77d1d1112b453d210de4</anchor>
+      <arglist>(const SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>SavitzkyGolayFilter</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>a79c89ffc5dd894526d7b6632db078ade</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>configure</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>a2457cce164a1124e6fc79b03287586a9</anchor>
+      <arglist>(const SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type>ContainerT::value_type</type>
+      <name>filter</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>ab06473f0ccc715693a02c1fda7aed0e6</anchor>
+      <arglist>(const ContainerT &amp;v) const</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; double &gt;</type>
+      <name>weights</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>a0157294c2de216cb6e78a620acd42c62</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>SavitzkyGolayFilterConfig</type>
+      <name>config</name>
+      <anchorfile>a00573.html</anchorfile>
+      <anchor>a1ccbcb8422f640dd4257dc48e08599cf</anchor>
+      <arglist>() const</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>gram_sg::SavitzkyGolayFilterConfig</name>
+    <filename>a00569.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>SavitzkyGolayFilterConfig</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>ac5d9928c6303b760995e3f29a7927e4e</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type></type>
+      <name>SavitzkyGolayFilterConfig</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>acf3933ac86f04821871a93e2bedfd4bd</anchor>
+      <arglist>(unsigned m, int t, unsigned n, unsigned s, double dt=1.)</arglist>
+    </member>
+    <member kind="function">
+      <type>int</type>
+      <name>data_point</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a55bfb023cade16236cc3926215f60716</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>derivation_order</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>acfb5e75c310c8a07771e180f61c4160b</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>order</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a095370e05c10895447e72336f1794d58</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>unsigned</type>
+      <name>window_size</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>ad8d831c32fd757b24599d49bab880c75</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>double</type>
+      <name>time_step</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a093275ce094a878af045f2aeeb9639bd</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned</type>
+      <name>m</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a091cc449705e2b6ddef189c1787c412d</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>int</type>
+      <name>t</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>ab61ac2ee43096804e51c6514cd54cdb8</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned</type>
+      <name>n</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>ab886c213b5891dfef38b2451696f0de3</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>unsigned</type>
+      <name>s</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a2554a91bd7d939ac655f11cb61bed0f4</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable">
+      <type>double</type>
+      <name>dt</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a10f0d8fbde386ae535516cec51d33271</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="friend">
+      <type>friend std::ostream &amp;</type>
+      <name>operator&lt;&lt;</name>
+      <anchorfile>a00569.html</anchorfile>
+      <anchor>a357b1614e51db06eb9c84a626fcbe99c</anchor>
+      <arglist>(std::ostream &amp;os, const SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+  </compound>
+  <compound kind="struct">
+    <name>gram_sg::TransformFilter</name>
+    <filename>a00585.html</filename>
+    <member kind="function">
+      <type></type>
+      <name>TransformFilter</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a1a63f88f5e38737e23f50dfe52ad5bde</anchor>
+      <arglist>(const gram_sg::SavitzkyGolayFilterConfig &amp;conf)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a2d2f12d1864be35ecfa46364a9ce8577</anchor>
+      <arglist>(const Eigen::Affine3d &amp;T)</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>reset</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a5eb9360f771f0d2e220226a1f0e27fb2</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>clear</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a3a29bba6ef67215bf5407f0459836281</anchor>
+      <arglist>()</arglist>
+    </member>
+    <member kind="function">
+      <type>void</type>
+      <name>add</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a8ea1e961d299f60de84ca974beb9b5f3</anchor>
+      <arglist>(const Eigen::Affine3d &amp;T)</arglist>
+    </member>
+    <member kind="function">
+      <type>Eigen::Affine3d</type>
+      <name>filter</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a3842491fd4569f845a5e8283cf051190</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>gram_sg::SavitzkyGolayFilterConfig</type>
+      <name>config</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a293974acbb8b3b64a29a22e03d1fe3a0</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="function">
+      <type>bool</type>
+      <name>ready</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a1bba82534503c88e1b2eeaa898d0de35</anchor>
+      <arglist>() const</arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>EigenVectorFilter&lt; Eigen::Vector3d &gt;</type>
+      <name>trans_filter</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a874beef07f76d566ac46d4f8c92b535a</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="variable" protection="protected">
+      <type>RotationFilter</type>
+      <name>rot_filter</name>
+      <anchorfile>a00585.html</anchorfile>
+      <anchor>a0650051d4d2a66612821c20bb46a08fd</anchor>
+      <arglist></arglist>
+    </member>
+  </compound>
+  <compound kind="namespace">
+    <name>gram_sg</name>
+    <filename>a00021.html</filename>
+    <class kind="struct">gram_sg::EigenVectorFilter</class>
+    <class kind="struct">gram_sg::RotationFilter</class>
+    <class kind="struct">gram_sg::SavitzkyGolayFilter</class>
+    <class kind="struct">gram_sg::SavitzkyGolayFilterConfig</class>
+    <class kind="struct">gram_sg::TransformFilter</class>
+    <member kind="typedef">
+      <type>Eigen::Matrix&lt; double, 6, 1 &gt;</type>
+      <name>Vector6d</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>afe2fea31e959bda111cba2f1f488ff70</anchor>
+      <arglist></arglist>
+    </member>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>GramPoly</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>ae1a652d25771522a027ebd894684fc95</anchor>
+      <arglist>(const int i, const int m, const int k, const int s)</arglist>
+    </member>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>GenFact</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>ae8223ad96723599e5b17da766bf18d15</anchor>
+      <arglist>(const int a, const int b)</arglist>
+    </member>
+    <member kind="function">
+      <type>double GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>Weight</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>aad1e53ab578d91fb5698894768b79745</anchor>
+      <arglist>(const int i, const int t, const int m, const int n, const int s)</arglist>
+    </member>
+    <member kind="function">
+      <type>std::vector&lt; double &gt; GRAM_SAVITZKY_GOLAY_DLLAPI</type>
+      <name>ComputeWeights</name>
+      <anchorfile>a00021.html</anchorfile>
+      <anchor>a2f93a4bc77fa46e456c1e34050c27102</anchor>
+      <arglist>(const int m, const int t, const int n, const int s)</arglist>
+    </member>
+  </compound>
+</tagfile>
