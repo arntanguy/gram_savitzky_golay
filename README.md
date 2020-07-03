@@ -1,6 +1,9 @@
 gram_savitzky_golay
 ==
 
+![CI of gram-savitzy-golay](https://github.com/arntanguy/gram_savitzky_golay/workflows/CI%20of%20gram-savitzy-golay/badge.svg)
+[![Documentation](https://img.shields.io/badge/website-online-brightgreen?logo=read-the-docs&style=flat)](https://arntanguy.github.io/gram_savitzky_golay/)
+
 C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in 
 - [General Least-Squares Smoothing and Differentiation by the Convolution (Savitzky-Golay) Method](http://pubs.acs.org/doi/pdf/10.1021/ac00205a007)
 
