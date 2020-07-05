@@ -1,0 +1,82 @@
+name: Package gram_savitzky_golay
+
+# This workflow only runs when pushing to master or pushing a tag
+#
+# On master, it will:
+# - Build packages for selected Debian/Ubuntu distro
+# - Upload the packages to https://dl.bintray.com/arntanguy/ppa-head
+#
+# On tagged versions it will:
+# - Create a GitHub release draft
+# - Attach the sources to the release
+# - Build packages for selected Debian/Ubuntu distro
+# - Upload the packages to https://dl.bintray.com/arntanguy/ppa-head
+# - Finalize the release
+
+on:
+  push:
+    branches:
+      - master
+      - topic/packaging
+
+jobs:
+  # This job build binary packages for Ubuntu
+  build-packages:
+    strategy:
+      fail-fast: false
+      matrix:
+        dist: [bionic, focal]
+        arch: [amd64]
+    runs-on: ubuntu-18.04 
+    steps:
+    - uses: actions/checkout@v1
+    - name: Prepare recipe
+      run: |
+        set -x
+        cp .github/workflows/gram_savitzky_golay.recipe /tmp/gram_savitzky_golay.recipe
+        export REF=`echo ${{ github.ref }} | sed -e 's@refs/[a-z]*/@@'`
+        sed -i "s#@REF@#${REF}#" /tmp/gram_savitzky_golay.recipe
+        echo "Prepared recipe"
+        echo "###############"
+        cat /tmp/gram_savitzky_golay.recipe
+    - name: Build package
+      uses: jrl-umi3218/github-actions/build-package@master
+      with:
+        dist: ${{ matrix.dist }}
+        arch: ${{ matrix.arch }}
+        recipe: /tmp/gram_savitzky_golay.recipe
+    - uses: actions/upload-artifact@v1
+      with:
+        name: packages-${{ matrix.dist }}-${{ matrix.arch }}
+        path: /tmp/packages-${{ matrix.dist }}-${{ matrix.arch }}/
+  # This job upload binary packages for Ubuntu
+  upload-packages:
+    needs: build-packages
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix:
+        dist: [bionic,focal]
+        arch: [amd64]
+    runs-on: ubuntu-18.04 
+    steps:
+    - name: Download packages
+      uses: actions/download-artifact@v1
+      with:
+        name: packages-${{ matrix.dist }}-${{ matrix.arch }}
+    - name: Upload
+      uses: jrl-umi3218/github-actions/upload-package@master
+      with:
+        dist: ${{ matrix.dist }}
+        arch: ${{ matrix.arch }}
+        subject: arntanguy
+        repo: ppa-head
+        package: |
+          name: gram-savitzky-golay-dev
+          desc: "gram_savitzky_golay Savitzky-Golay filtering based on Gram polynomials"
+          licenses: [BSD 2-Clause]
+          vcs_url: https://github.com/arntanguy/gram_savitzky_golay
+        version: 0.9.0
+        path: packages-${{ matrix.dist }}-${{ matrix.arch }}
+        BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
+        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}

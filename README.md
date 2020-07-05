@@ -1,14 +1,29 @@
-gram_savitzky_golay
-==
+## gram_savitzky_golay
 
 ![CI of gram-savitzy-golay](https://github.com/arntanguy/gram_savitzky_golay/workflows/CI%20of%20gram-savitzy-golay/badge.svg)
 [![Documentation](https://img.shields.io/badge/website-online-brightgreen?logo=read-the-docs&style=flat)](https://arntanguy.github.io/gram_savitzky_golay/)
+![Package gram_savitzky_golay](https://github.com/arntanguy/gram_savitzky_golay/workflows/Package%20gram_savitzky_golay/badge.svg)
 
 C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in 
 - [General Least-Squares Smoothing and Differentiation by the Convolution (Savitzky-Golay) Method](http://pubs.acs.org/doi/pdf/10.1021/ac00205a007)
 
-Installation
-==
+## Installation
+
+### From Ubunu packages
+
+```sh
+# Make sure you have required tools
+sudo apt install apt-transport-https lsb-release ca-certificates gnupg
+# Add our key
+sudo apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key F6D3710D0B5016967A994DFFA650E12EFF6D3EDE
+# Add our repository
+echo "deb https://dl.bintray.com/arntanguy/ppa-head bionic main" | sudo tee -a /etc/apt/sources.list.d/arntanguy-head.list
+# Install packages
+sudo apt install libgram-savitzy-golay-dev
+```
+
+### From source
+
 ```sh
 mkdir build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
