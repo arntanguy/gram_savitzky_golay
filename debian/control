@@ -16,6 +16,7 @@ Build-Depends: debhelper (>= 9),
 Package: libgram-savitzky-golay-dev
 Section: libdevel
 Architecture: any
+Suggests: libgram-savitzky-golay-doc
 Depends: pkg-config,
          libeigen3-dev (>= 3.2),
          libgram-savitzky-golay1 (= ${binary:Version}),
@@ -28,3 +29,13 @@ Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends}
 Description: Savitzky-Golay filtering based on Gram polynomials 
+
+Package: libgram-savitzky-golay-doc
+Section: doc
+Architecture: all
+Depends: ${misc:Depends}
+Multi-Arch: foreign
+Suggests: libgram-savitzky-golay-dev
+Description: gram-savitzky-golay - API documentation
+ gram_savitzky_golay is a C++ implementation of Savitzky-Golay filters based on Gram polynomials
+ This package provides the complete API documentation in HTML format.

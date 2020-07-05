@@ -1,0 +1,8 @@
+Document: libgram-savitzky-golay-api-documentation
+Title: API documentation for gram_savitzky_golay
+Author: Arnaud Tanguy 
+Section: Programming/C++
+
+Format: HTML
+Index: /usr/share/doc/gram_savitzky_golay/doxygen-html/index.html
+Files: /usr/share/doc/gram_savitzky_golay/doxygen-html/*.html
