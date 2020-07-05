@@ -11,7 +11,7 @@ C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as des
 
 ### From Ubunu packages
 
-```
+```sh
 # Make sure you have required tools
 sudo apt install apt-transport-https lsb-release ca-certificates gnupg
 # Add our key

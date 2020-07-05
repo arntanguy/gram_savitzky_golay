@@ -2,4 +2,4 @@ usr/include/*
 usr/lib/libgram_savitzky_golay.so
 usr/lib/*/pkgconfig/*
 usr/lib/cmake/*
-usr/share/doc/*
+usr/share/doc/gram_savitzky_golay/doxygen-html/*

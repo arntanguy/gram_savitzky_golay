@@ -25,9 +25,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        dist: [bionic]
+        dist: [bionic, focal]
         arch: [amd64]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-18.04 
     steps:
     - uses: actions/checkout@v1
     - name: Prepare recipe
@@ -56,9 +56,9 @@ jobs:
       max-parallel: 1
       fail-fast: false
       matrix:
-        dist: [bionic]
+        dist: [bionic,focal]
         arch: [amd64]
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-18.04 
     steps:
     - name: Download packages
       uses: actions/download-artifact@v1
@@ -70,13 +70,13 @@ jobs:
         dist: ${{ matrix.dist }}
         arch: ${{ matrix.arch }}
         subject: arntanguy
-        repo: ppa-head 
+        repo: ppa-head
         package: |
           name: gram-savitzky-golay-dev
           desc: "gram_savitzky_golay Savitzky-Golay filtering based on Gram polynomials"
           licenses: [BSD 2-Clause]
           vcs_url: https://github.com/arntanguy/gram_savitzky_golay
-        version: 0.9.0 
+        version: 0.9.0
         path: packages-${{ matrix.dist }}-${{ matrix.arch }}
         BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
         GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
