@@ -1,0 +1,5 @@
+usr/include/*
+usr/lib/libgram_savitzky_golay.so
+usr/lib/*/pkgconfig/*
+usr/lib/cmake/*
+usr/share/doc/*

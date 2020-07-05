@@ -1,0 +1,5 @@
+gram-savitzky-golay (0.9.0-1trusty1) trusty; urgency=medium
+
+  * Initial release.
+
+ -- Arnaud Tanguy <arn.tanguy+ppa@gmail.com>  Sun, 05 Jul 2020 12:00:00 +0900
