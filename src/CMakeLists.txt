@@ -30,12 +30,18 @@ set(HEADERS
 add_library(gram_savitzky_golay SHARED ${SRC} ${HEADERS})
 set_target_properties(gram_savitzky_golay PROPERTIES COMPILE_FLAGS "-DGRAM_SAVITZKY_GOLAY_EXPORTS")
 target_include_directories(gram_savitzky_golay PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> $<INSTALL_INTERFACE:include>)
-target_link_libraries(gram_savitzky_golay PUBLIC Boost::boost)
 if(TARGET Eigen3::Eigen)
   target_link_libraries(gram_savitzky_golay PUBLIC Eigen3::Eigen)
 else()
   target_include_directories(gram_savitzky_golay PUBLIC ${EIGEN3_INCLUDE_DIRS})
 endif()
+if(TARGET Boost::boost)
+  target_link_libraries(gram_savitzky_golay PUBLIC Boost::boost)
+else()
+  target_include_directories(gram_savitzky_golay PUBLIC ${BOOST_INCLUDE_DIRS})
+  target_link_libraries(gram_savitzky_golay PUBLIC ${BOOST_LIBRARIES})
+endif()
+
 set_target_properties(gram_savitzky_golay PROPERTIES SOVERSION ${PROJECT_VERSION})
 
 install(TARGETS gram_savitzky_golay
