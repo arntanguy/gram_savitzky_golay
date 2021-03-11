@@ -30,7 +30,7 @@ if(MSVC)
 endif()
 
 
-add_project_dependency(Eigen3 REQUIRED)
+add_project_dependency(Eigen3 REQUIRED PKG_CONFIG_REQUIRES eigen3)
 add_project_dependency(Boost REQUIRED)
 add_subdirectory(src)
 
