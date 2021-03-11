@@ -42,6 +42,8 @@ else()
   target_link_libraries(gram_savitzky_golay PUBLIC ${BOOST_LIBRARIES})
 endif()
 
+pkg_config_append_libs(gram_savitzky_golay)
+
 set_target_properties(gram_savitzky_golay PROPERTIES SOVERSION ${PROJECT_VERSION})
 
 install(TARGETS gram_savitzky_golay
