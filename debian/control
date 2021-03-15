@@ -21,14 +21,25 @@ Depends: pkg-config,
          libeigen3-dev (>= 3.2),
          libgram-savitzky-golay1 (= ${binary:Version}),
          ${misc:Depends}
-Description: Savitzky-Golay filtering based on Gram polynomials 
+Description: Savitzky-Golay filtering based on Gram polynomials
+
+Package: libgram-savitzky-golay-sva-dev
+Section: libdevel
+Architecture: any
+Suggests: libgram-savitzky-golay-doc
+Depends: pkg-config,
+         libeigen3-dev (>= 3.2),
+         libspacevecalg-dev,
+         libgram-savitzky-golay-dev (= ${binary:Version}),
+         ${misc:Depends}
+Description: Extension of savitzky golay filters to SpaceVecAlg types
 
 Package: libgram-savitzky-golay1
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends},
          ${misc:Depends}
-Description: Savitzky-Golay filtering based on Gram polynomials 
+Description: Savitzky-Golay filtering based on Gram polynomials
 
 Package: libgram-savitzky-golay-doc
 Section: doc
