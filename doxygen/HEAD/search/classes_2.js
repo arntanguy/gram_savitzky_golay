@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['savitzkygolayfilter',['SavitzkyGolayFilter',['../a00573.html',1,'gram_sg']]],
-  ['savitzkygolayfilterconfig',['SavitzkyGolayFilterConfig',['../a00569.html',1,'gram_sg']]]
+  ['savitzkygolayfilter',['SavitzkyGolayFilter',['../structgram__sg_1_1SavitzkyGolayFilter.html',1,'gram_sg']]],
+  ['savitzkygolayfilterconfig',['SavitzkyGolayFilterConfig',['../structgram__sg_1_1SavitzkyGolayFilterConfig.html',1,'gram_sg']]]
 ];

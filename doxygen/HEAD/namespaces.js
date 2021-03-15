@@ -1,4 +1,4 @@
 var namespaces =
 [
-    [ "gram_sg", "a00021.html", null ]
+    [ "gram_sg", "namespacegram__sg.html", null ]
 ];

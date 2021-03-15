@@ -1,4 +1,4 @@
 var annotated_dup =
 [
-    [ "gram_sg", "a00021.html", "a00021" ]
+    [ "gram_sg", "namespacegram__sg.html", "namespacegram__sg" ]
 ];

@@ -1,0 +1,16 @@
+digraph "gram_sg::TransformFilter"
+{
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="gram_sg::TransformFilter",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black"];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" trans_filter" ,fontname="Helvetica"];
+  Node2 [label="gram_sg::EigenVectorFilter\l\< Eigen::Vector3d \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgram__sg_1_1EigenVectorFilter.html"];
+  Node3 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sg_filter" ,fontname="Helvetica"];
+  Node3 [label="gram_sg::SavitzkyGolayFilter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgram__sg_1_1SavitzkyGolayFilter.html"];
+  Node4 -> Node2 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sg_conf" ,fontname="Helvetica"];
+  Node4 [label="gram_sg::SavitzkyGolayFilter\lConfig",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgram__sg_1_1SavitzkyGolayFilterConfig.html"];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" rot_filter" ,fontname="Helvetica"];
+  Node5 [label="gram_sg::RotationFilter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structgram__sg_1_1RotationFilter.html"];
+  Node3 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sg_filter" ,fontname="Helvetica"];
+  Node4 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" sg_conf" ,fontname="Helvetica"];
+}
