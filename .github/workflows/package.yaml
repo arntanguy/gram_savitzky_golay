@@ -14,11 +14,18 @@ name: Package gram_savitzky_golay
 # - Finalize the release
 
 on:
-  push:
+  pull_request:
     branches:
-      - master
-      - topic/packaging
-
+    - "**"
+  push:
+    paths-ignore:
+    - doc/**
+    - README.md
+    - ".github/workflows/build.yml"
+    branches:
+    - "**"
+    tags:
+    - v*
 jobs:
   # This job build binary packages for Ubuntu
   build-packages:
