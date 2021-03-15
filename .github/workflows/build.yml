@@ -51,7 +51,11 @@ jobs:
         compiler: ${{ matrix.compiler }}
         build-type: ${{ matrix.build-type }}
         ubuntu: |
-          apt: libeigen3-dev doxygen doxygen-latex libboost-all-dev
+          apt: libeigen3-dev libspacevecalg-dev doxygen doxygen-latex libboost-all-dev
+          apt-mirrors:
+            multi-contact:
+              mirror: https://dl.bintray.com/gergondet/multi-contact-head
+              key: 892EA6EE273707C6495A6FB6220D644C64666806
         macos: |
           brew: eigen boost pkg-config doxygen
         windows: |
