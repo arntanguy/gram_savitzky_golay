@@ -32,6 +32,10 @@ endif()
 
 add_project_dependency(Eigen3 REQUIRED)
 add_project_dependency(Boost REQUIRED)
+add_project_dependency(SpaceVecAlg QUIET)
+if(TARGET SpaceVecAlg::SpaceVecAlg)
+  message(STATUS "Building with SpaceVecAlg filters supports")
+endif()
 add_subdirectory(src)
 
 if(BUILD_TESTS)

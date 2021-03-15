@@ -8,7 +8,17 @@ macro(add_test_simple NAME)
   add_test(${NAME} ${NAME})
   # Adding a project configuration file (for MSVC only)
   generate_msvc_dot_user_file(${NAME})
-ENDMACRO()
+endmacro()
 
 add_test_simple(test_gram_savitzky_golay)
 add_test_simple(test_spatial_filters)
+
+if(TARGET gram_savitzky_golay_sva)
+  message(STATUS "Building tests for SpaceVecAlg support")
+  macro(add_sva_test NAME)
+    add_test_simple(${NAME} ${ARGS})
+    target_link_libraries(${NAME} PUBLIC gram_savitzky_golay_sva)
+  endmacro()
+
+  add_sva_test(test_sva_filters)
+endif()

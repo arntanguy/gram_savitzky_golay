@@ -4,7 +4,7 @@
 [![Documentation](https://img.shields.io/badge/website-online-brightgreen?logo=read-the-docs&style=flat)](https://arntanguy.github.io/gram_savitzky_golay/)
 ![Package gram_savitzky_golay](https://github.com/arntanguy/gram_savitzky_golay/workflows/Package%20gram_savitzky_golay/badge.svg)
 
-C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in 
+C++ Implementation of Savitzky-Golay filtering based on Gram polynomials, as described in
 - [General Least-Squares Smoothing and Differentiation by the Convolution (Savitzky-Golay) Method](http://pubs.acs.org/doi/pdf/10.1021/ac00205a007)
 
 ## Installation
@@ -23,6 +23,10 @@ sudo apt install libgram-savitzy-golay-dev
 ```
 
 ### From source
+
+Dependencies:
+- eigen3
+- [SpaceVecAlg](https://github.com/jrl-umi3218/SpaceVecAlg) (optional): If present then you will be able to filter its main types (`PTransformd`, `MotionVecd`, etc)
 
 ```sh
 mkdir build && cd build
@@ -47,6 +51,8 @@ find_package(gram_savitzky_golay REQUIRED)
 # Creates a new executable and link it with the `gram_savitzky_golay` target
 add_executable(Example example.cpp)
 target_link_libraries(Example PUBLIC gram_savitzky_golay::gram_savitzky_golay)
+# For SpaceVecAlg types
+target_link_libraries(Example PUBLIC gram_savitzky_golay::gram_savitzky_golay_sva)
 ```
 
 Example
@@ -109,4 +115,65 @@ filter.add(Eigen::Matrix3d ...)
 const Eigen::Matrix3d res = filter.filter();
 ```
 
-This header also contains a filter for homogeneous transformations defined as `Eigen::Affine3d`, and a generic filter for eigen vectors. 
+This header also contains a filter for homogeneous transformations defined as `Eigen::Affine3d`, and a generic filter for eigen vectors.
+
+
+Filtering Transformations
+==
+
+```cpp
+#include <gram_savitzky_golay/spatial_filters.h>
+
+gram_sg::SavitzkyGolayFilterConfig sg_conf(50, 50, 2, 0);
+gram_sg::TransformFilter<Eigen::Affine3d> filter(sg_conf);  // Or Eigen::Matrix4d
+
+filter.reset(Eigen::Matrix4d::Zero());
+
+// Add homegenous transformation matrices to the filter
+filter.add(Eigen::Matrix4d ...)
+filter.add(Eigen::Matrix4d ...)
+filter.add(Eigen::Matrix4d ...)
+
+const Eigen::Matrix4d res = filter.filter();
+```
+
+If you have SpaceVecAlg installed, you can also filter `sva::PTransformd` in the same way.
+
+
+Filtering Velocities
+==
+
+```cpp
+#include <gram_savitzky_golay/spatial_filters.h>
+
+gram_sg::SavitzkyGolayFilterConfig sg_conf(50, 50, 2, 0);
+// Linear and angular velocity
+gram_sg::VelocityFilter<Eigen::Vector6d> filter(sg_conf);
+
+using Vector6d = Eigen::Matrix<double, 6, 1>;
+
+// Add homegenous transformation matrices to the filter
+filter.add(Vector6d{...})
+filter.add(Vector6d{...})
+...
+
+const Eigen::Vector6d res = filter.filter();
+```
+
+Note that for standard vector types, this is the same as using `EigenVectorFilter` directly. However, you can also use more complex types such as `sva::MotionVecd`
+
+```cpp
+#include <gram_savitzky_golay/sva_filters.h>
+
+gram_sg::SavitzkyGolayFilterConfig sg_conf(50, 50, 2, 0);
+// Linear and angular velocity
+gram_sg::VelocityFilter<sva::MotionVecd> filter(sg_conf);
+
+// Add homegenous transformation matrices to the filter
+filter.add(sva::MotionVecd{ 0.5, 1.2, 0} , {0.1, 0.2, 0.3}}};
+filter.add(sva::MotionVecd{ 0.6, 1.3, 0} , {0.1, 0.2, 0.3}}};
+filter.add(sva::MotionVecd{ 0.7, 1.4, 0} , {0.1, 0.2, 0.3}}};
+...
+
+sva::MotionVecd res = filter.filter();
+```

@@ -25,8 +25,15 @@ else()
   target_include_directories(gram_savitzky_golay PUBLIC ${BOOST_INCLUDE_DIRS})
   target_link_libraries(gram_savitzky_golay PUBLIC ${BOOST_LIBRARIES})
 endif()
-
 set_target_properties(gram_savitzky_golay PROPERTIES SOVERSION ${PROJECT_VERSION})
+
+if(TARGET SpaceVecAlg::SpaceVecAlg)
+  add_library(gram_savitzky_golay_sva INTERFACE ../include/gram_savitzky_golay/sva_filters.h)
+  target_link_libraries(gram_savitzky_golay_sva INTERFACE gram_savitzky_golay SpaceVecAlg::SpaceVecAlg)
+
+  install(TARGETS gram_savitzky_golay_sva
+    EXPORT "${TARGETS_EXPORT_NAME}")
+endif()
 
 install(TARGETS gram_savitzky_golay
   EXPORT "${TARGETS_EXPORT_NAME}"

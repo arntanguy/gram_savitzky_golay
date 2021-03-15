@@ -51,42 +51,4 @@ Eigen::Matrix3d RotationFilter::filter() const
   return res;
 }
 
-TransformFilter::TransformFilter(const gram_sg::SavitzkyGolayFilterConfig & conf) : trans_filter(conf), rot_filter(conf)
-{
-}
-
-void TransformFilter::reset(const Eigen::Affine3d & T)
-{
-  trans_filter.reset(T.translation());
-  rot_filter.reset(T.rotation());
-}
-
-void TransformFilter::reset()
-{
-  trans_filter.reset();
-  rot_filter.reset();
-}
-
-void TransformFilter::clear()
-{
-  trans_filter.clear();
-  rot_filter.clear();
-}
-
-void TransformFilter::add(const Eigen::Affine3d & T)
-{
-  trans_filter.add(T.translation());
-  rot_filter.add(T.rotation());
-}
-
-Eigen::Affine3d TransformFilter::filter() const
-{
-  const Eigen::Vector3d & trans_res = trans_filter.filter();
-  const Eigen::Matrix3d & rot_res = rot_filter.filter();
-  Eigen::Matrix4d rot = Eigen::Matrix4d::Identity();
-  rot.block<3, 3>(0, 0) = rot_res;
-  rot.block<3, 1>(0, 3) = trans_res;
-  return Eigen::Affine3d(rot);
-}
-
 } // namespace gram_sg
