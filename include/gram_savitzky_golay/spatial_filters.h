@@ -16,7 +16,7 @@ namespace gram_sg
 using Vector6d = Eigen::Matrix<double, 6, 1>;
 
 template<typename T>
-struct GRAM_SAVITZKY_GOLAY_DLLAPI EigenVectorFilter
+struct EigenVectorFilter
 {
   EigenVectorFilter(const gram_sg::SavitzkyGolayFilterConfig & conf)
   : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
@@ -162,7 +162,7 @@ protected:
   RotationFilter rot_filter;
 };
 
-template<typename TransformMatrixT = Eigen::Affine3d>
+template<typename TransformMatrixT>
 struct TransformFilter : public TransformFilterBase<TransformMatrixT>
 {
   using ParentFilter = TransformFilterBase<TransformMatrixT>;

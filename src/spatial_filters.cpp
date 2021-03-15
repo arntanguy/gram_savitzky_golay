@@ -41,6 +41,7 @@ void RotationFilter::add(const Eigen::Matrix3d & r)
 {
   buffer.push_back(r);
 }
+
 Eigen::Matrix3d RotationFilter::filter() const
 {
   // Apply a temporal (savitzky-golay) convolution,
