@@ -27,24 +27,16 @@ jobs:
       matrix:
         dist: [bionic, focal]
         arch: [amd64]
-    runs-on: ubuntu-18.04 
+    runs-on: ubuntu-18.04
     steps:
     - uses: actions/checkout@v1
-    - name: Prepare recipe
-      run: |
-        set -x
-        cp .github/workflows/gram_savitzky_golay.recipe /tmp/gram_savitzky_golay.recipe
-        export REF=`echo ${{ github.ref }} | sed -e 's@refs/[a-z]*/@@'`
-        sed -i "s#@REF@#${REF}#" /tmp/gram_savitzky_golay.recipe
-        echo "Prepared recipe"
-        echo "###############"
-        cat /tmp/gram_savitzky_golay.recipe
+      with:
+        submodules: recursive
     - name: Build package
-      uses: jrl-umi3218/github-actions/build-package@master
+      uses: jrl-umi3218/github-actions/build-package-native@master
       with:
         dist: ${{ matrix.dist }}
         arch: ${{ matrix.arch }}
-        recipe: /tmp/gram_savitzky_golay.recipe
     - uses: actions/upload-artifact@v1
       with:
         name: packages-${{ matrix.dist }}-${{ matrix.arch }}
@@ -58,25 +50,23 @@ jobs:
       matrix:
         dist: [bionic,focal]
         arch: [amd64]
-    runs-on: ubuntu-18.04 
+    runs-on: ubuntu-18.04
     steps:
     - name: Download packages
       uses: actions/download-artifact@v1
       with:
         name: packages-${{ matrix.dist }}-${{ matrix.arch }}
-    - name: Upload
+    - name: Upload to multi-contact-head
       uses: jrl-umi3218/github-actions/upload-package@master
       with:
-        dist: ${{ matrix.dist }}
-        arch: ${{ matrix.arch }}
-        subject: arntanguy
-        repo: ppa-head
-        package: |
-          name: gram-savitzky-golay-dev
-          desc: "gram_savitzky_golay Savitzky-Golay filtering based on Gram polynomials"
-          licenses: [BSD 2-Clause]
-          vcs_url: https://github.com/arntanguy/gram_savitzky_golay
-        version: 0.9.0
+        dist: ubuntu/${{ matrix.dist }}
+        repo: mc-rtc/head
         path: packages-${{ matrix.dist }}-${{ matrix.arch }}
-        BINTRAY_API_KEY: ${{ secrets.BINTRAY_API_KEY }}
-        GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
+    - name: Upload to multi-contact-release
+      uses: jrl-umi3218/github-actions/upload-package@master
+      with:
+        dist: ubuntu/${{ matrix.dist }}
+        repo: mc-rtc/stable
+        path: packages-${{ matrix.dist }}-${{ matrix.arch }}
+        CLOUDSMITH_API_KEY: ${{ secrets.CLOUDSMITH_API_KEY }}
