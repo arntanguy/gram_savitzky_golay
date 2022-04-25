@@ -34,7 +34,7 @@ add_project_dependency(Eigen3 REQUIRED PKG_CONFIG_REQUIRES eigen3)
 add_project_dependency(Boost REQUIRED)
 add_project_dependency(SpaceVecAlg QUIET)
 if(TARGET SpaceVecAlg::SpaceVecAlg)
-  message(STATUS "Building with SpaceVecAlg filters supports")
+  message(STATUS "Building with SpaceVecAlg filters support")
 endif()
 add_subdirectory(src)
 

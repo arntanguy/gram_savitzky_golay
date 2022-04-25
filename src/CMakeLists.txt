@@ -26,7 +26,7 @@ else()
   target_link_libraries(gram_savitzky_golay PUBLIC ${BOOST_LIBRARIES})
 endif()
 
-pkg_config_append_libs(gram_savitzky_golay)
+# pkg_config_append_libs(gram_savitzky_golay)
 set_target_properties(gram_savitzky_golay PROPERTIES SOVERSION ${PROJECT_VERSION})
 install(TARGETS gram_savitzky_golay
   EXPORT "${TARGETS_EXPORT_NAME}"
@@ -38,10 +38,9 @@ install(
   DIRECTORY ${CMAKE_SOURCE_DIR}/include/ DESTINATION include)
 
 if(TARGET SpaceVecAlg::SpaceVecAlg)
-  add_library(gram_savitzky_golay_sva INTERFACE ../include/gram_savitzky_golay/sva_filters.h)
+  add_library(gram_savitzky_golay_sva INTERFACE)
   target_link_libraries(gram_savitzky_golay_sva INTERFACE gram_savitzky_golay SpaceVecAlg::SpaceVecAlg)
 
-  pkg_config_append_libs(gram_savitzky_golay_sva)
   install(TARGETS gram_savitzky_golay_sva
     EXPORT "${TARGETS_EXPORT_NAME}")
 endif()

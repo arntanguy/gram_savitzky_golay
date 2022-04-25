@@ -11,6 +11,7 @@ Build-Depends: debhelper (>= 9),
  cmake,
  doxygen,
  libboost-test-dev,
+ libspacevecalg-dev,
  libeigen3-dev (>= 3.2)
 
 Package: libgram-savitzky-golay-dev
@@ -18,21 +19,11 @@ Section: libdevel
 Architecture: any
 Suggests: libgram-savitzky-golay-doc
 Depends: pkg-config,
+         libspacevecalg-dev,
          libeigen3-dev (>= 3.2),
          libgram-savitzky-golay1 (= ${binary:Version}),
          ${misc:Depends}
 Description: Savitzky-Golay filtering based on Gram polynomials
-
-Package: libgram-savitzky-golay-sva-dev
-Section: libdevel
-Architecture: any
-Suggests: libgram-savitzky-golay-doc
-Depends: pkg-config,
-         libeigen3-dev (>= 3.2),
-         libspacevecalg-dev,
-         libgram-savitzky-golay-dev (= ${binary:Version}),
-         ${misc:Depends}
-Description: Extension of savitzky golay filters to SpaceVecAlg types
 
 Package: libgram-savitzky-golay1
 Section: libs
