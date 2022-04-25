@@ -4,6 +4,7 @@
 
 #define BOOST_TEST_MODULE TestSpatialFilters
 #include <boost/test/unit_test.hpp>
+#include <Eigen/Geometry> // For Affine3d
 #include <gram_savitzky_golay/spatial_filters.h>
 
 #ifndef M_PI

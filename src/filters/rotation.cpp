@@ -1,6 +1,6 @@
 /*
  * Copyright 2017-2018 CNRS-UM LIRMM
- * Copyright 2019-2021 CNRS-UM LIRMM, CNRS-AIST JRL
+ * Copyright 2019-2022 CNRS-UM LIRMM, CNRS-AIST JRL
  */
 
 #include <gram_savitzky_golay/spatial_filters.h>
