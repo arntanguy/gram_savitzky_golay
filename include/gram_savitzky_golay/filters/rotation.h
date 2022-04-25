@@ -6,6 +6,7 @@
 #pragma once
 #include <boost/circular_buffer.hpp>
 #include <Eigen/Core>
+#include <Eigen/SVD>
 #include <gram_savitzky_golay/gram_savitzky_golay.h>
 
 namespace gram_sg
@@ -17,14 +18,50 @@ namespace gram_sg
  * https://www.cvl.isy.liu.se/education/graduate/geometry2010/lectures/Lecture7b.pdf
  * Adapted to real time filtering through Savitzky-Golay
  **/
-struct GRAM_SAVITZKY_GOLAY_DLLAPI RotationFilter
+template<typename RotationMatrixT>
+struct GRAM_SAVITZKY_GOLAY_DLLAPI RotationFilterBase
 {
-  RotationFilter(const gram_sg::SavitzkyGolayFilterConfig & conf);
-  void reset(const Eigen::Matrix3d & r);
-  void reset();
-  void clear();
-  void add(const Eigen::Matrix3d & r);
-  Eigen::Matrix3d filter() const;
+  RotationFilterBase(const gram_sg::SavitzkyGolayFilterConfig & conf)
+  : sg_conf(conf), sg_filter(conf), buffer(2 * sg_filter.config().m + 1)
+  {
+    reset(RotationMatrixT::Zero());
+  }
+
+  void reset(const RotationMatrixT & r)
+  {
+    buffer.clear();
+    // Initialize to data
+    for(size_t i = 0; i < buffer.capacity(); i++)
+    {
+      buffer.push_back(r);
+    }
+  }
+
+  void reset()
+  {
+    reset(RotationMatrixT::Zero());
+  }
+
+  void clear()
+  {
+    buffer.clear();
+  }
+
+  void add(const RotationMatrixT & r)
+  {
+    buffer.push_back(r);
+  }
+
+  RotationMatrixT filter() const
+  {
+    // Apply a temporal (savitzky-golay) convolution,
+    // followed by an orthogonalization
+    const RotationMatrixT & result = sg_filter.filter(buffer);
+    Eigen::JacobiSVD<RotationMatrixT> svd(result, Eigen::ComputeFullV | Eigen::ComputeFullU);
+    RotationMatrixT res = svd.matrixU() * svd.matrixV().transpose();
+    return res;
+  }
+
   bool ready() const
   {
     return buffer.size() == buffer.capacity();
@@ -35,7 +72,9 @@ protected:
   gram_sg::SavitzkyGolayFilterConfig sg_conf;
   gram_sg::SavitzkyGolayFilter sg_filter;
   // Buffers for Savitzky_golay
-  boost::circular_buffer<Eigen::Matrix3d> buffer;
+  boost::circular_buffer<RotationMatrixT> buffer;
 };
+
+using RotationFilter = RotationFilterBase<Eigen::Matrix3d>;
 
 } // namespace gram_sg

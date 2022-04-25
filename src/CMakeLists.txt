@@ -3,7 +3,6 @@
 
 set(SRC
 gram_savitzky_golay.cpp
-filters/rotation.cpp
 )
 
 set(HEADERS
