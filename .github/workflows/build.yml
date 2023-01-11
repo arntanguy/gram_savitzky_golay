@@ -29,7 +29,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04, ubuntu-22.04, macos-latest, windows-latest]
+        os: [ubuntu-18.04, ubuntu-20.04, macos-latest, windows-latest]
         build-type: [Debug, RelWithDebInfo]
         compiler: [gcc, clang]
         exclude:
@@ -50,9 +50,13 @@ jobs:
         compiler: ${{ matrix.compiler }}
         build-type: ${{ matrix.build-type }}
         ubuntu: |
-          apt: libeigen3-dev doxygen doxygen-latex libboost-all-dev
+          apt: libeigen3-dev doxygen doxygen-latex libboost-all-dev libspacevecalg-dev
+          apt-mirrors:
+            mc-rtc:
+              cloudsmith: mc-rtc/head
         macos: |
-          brew: eigen boost pkg-config doxygen
+          brew-taps: mc-rtc/mc-rtc
+          brew: eigen boost pkg-config doxygen spacevecalg
         windows: |
           github:
             - path: eigenteam/eigen-git-mirror
