@@ -158,7 +158,7 @@ struct GRAM_SAVITZKY_GOLAY_DLLAPI SavitzkyGolayFilter
   template<typename ContainerT>
   typename ContainerT::value_type filter(const ContainerT & v) const
   {
-    assert(v.size() == weights_.size() && v.size() > 0);
+    assert(v.size() != weights_.size() || v.size() < 1);
     using T = typename ContainerT::value_type;
     T res = weights_[0] * v[0];
     for(size_t i = 1; i < v.size(); ++i)
